@@ -17,7 +17,7 @@ cluster = "${cluster_name}"
 setTags = ${tags}
 
 if 'Name' not in setTags.keys():
-    setTags['Name'] = "{{ cluster_name }}-resource"
+    setTags['Name'] = "${cluster_name}-resource"
 
 # Tag the resources ...
 def lambda_handler(event, context):
