@@ -1,16 +1,16 @@
-# AWS region where should the Minikube be deployed
+# AWS region where should the AWS Kubernetes be deployed
 aws_region    = "eu-central-1"
 
-# Name for role, policy and cloud formation stack (without DBG-DEV- prefix)
-cluster_name  = "my-minikube"
+# Name for role, policy and cloud formation stack
+cluster_name  = "aws-kubernetes"
 
 # Instance type
 aws_instance_type = "t2.medium"
 
-# SSH key for the machine
+# SSH key for the machines
 ssh_public_key = "~/.ssh/id_rsa.pub"
 
-# Subnet ID where the minikube should run
+# Subnet ID where the cluster should run
 aws_subnet_id = "subnet-8a3517f8"
 
 # DNS zone where the domain is placed
@@ -19,21 +19,21 @@ hosted_zone_private = false
 
 # Tags
 tags = {
-  Application = "Minikube"
+  Application = "AWS-Kubernetes"
 }
 
 # Kubernetes Addons
 # Supported addons:
-# https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/storage-class.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/heapster.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/dashboard.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/route53-mapper.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/external-dns.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/ingress.yaml"
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/route53-mapper.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/ingress.yaml"
 
 addons = [
-  "https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/storage-class.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/heapster.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/dashboard.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/minikube/addons/external-dns.yaml"
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml",
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml",
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml",
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml"
 ]
