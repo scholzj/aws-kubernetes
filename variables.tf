@@ -60,7 +60,7 @@ variable "hosted_zone_private" {
 }
 
 variable ssh_access_cidr {
-  description = "Adresses from which SSH access is allowed"
+  description = "List of CIDRs from which SSH access is allowed"
   type = "list"
   default = [
     "0.0.0.0/0"
@@ -68,7 +68,7 @@ variable ssh_access_cidr {
 }
 
 variable api_access_cidr {
-  description = "CIDR from which API access is allowed"
+  description = "List of CIDRs from which API access is allowed"
   type = "list"
   default = [
     "0.0.0.0/0"

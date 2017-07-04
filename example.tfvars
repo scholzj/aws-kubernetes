@@ -52,12 +52,12 @@ addons = [
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml"
 ]
 
-# CIDR from which SSH access is allowed
+# List of CIDRs from which SSH access is allowed
 ssh_access_cidr = [
     "0.0.0.0/0"
 ]
 
-# CIDR from which API access is allowed
+# List of  CIDRs from which API access is allowed
 api_access_cidr = [
     "0.0.0.0/0"
 ]
