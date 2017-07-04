@@ -23,26 +23,16 @@ resource "aws_security_group_rule" "allow_all_outbound_from_kubernetes" {
     security_group_id = "${aws_security_group.kubernetes.id}"
 }
 
-# Allow SSH connections only from specific CIDR
+# Allow SSH connections only from specific CIDR (TODO)
 resource "aws_security_group_rule" "allow_ssh_from_cidr" {
+    count = "${length(var.ssh_access_cidr)}"
     type = "ingress"
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.ssh_access_cidr[count.index]}"]
     security_group_id = "${aws_security_group.kubernetes.id}"
 }
-
-# # Allow SSH connections only from specific CIDR (TODO)
-# resource "aws_security_group_rule" "allow_ssh_from_cidr" {
-#     count = "${length(var.ssh_access_cidr)}"
-#     type = "ingress"
-#     from_port = 22
-#     to_port = 22
-#     protocol = "tcp"
-#     cidr_blocks = ["${var.ssh_access_cidr[count.index]}"]
-#     security_group_id = "${aws_security_group.kubernetes.id}"
-# }
 
 # Allow the security group members to talk with each other without restrictions
 resource "aws_security_group_rule" "allow_cluster_crosstalk" {
@@ -54,26 +44,16 @@ resource "aws_security_group_rule" "allow_cluster_crosstalk" {
     security_group_id = "${aws_security_group.kubernetes.id}"
 }
 
-# Allow API connections only from specific CIDR
+# Allow API connections only from specific CIDR (TODO)
 resource "aws_security_group_rule" "allow_api_from_cidr" {
+    count = "${length(var.api_access_cidr)}"
     type = "ingress"
     from_port = 6443
     to_port = 6443
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.api_access_cidr[count.index]}"]
     security_group_id = "${aws_security_group.kubernetes.id}"
 }
-
-# # Allow API connections only from specific CIDR (TODO)
-# resource "aws_security_group_rule" "allow_api_from_cidr" {
-#     count = "${length(var.ssh_access_cidr)}"
-#     type = "ingress"
-#     from_port = 6443
-#     to_port = 6443
-#     protocol = "tcp"
-#     cidr_blocks = ["${var.ssh_access_cidr[count.index]}"]
-#     security_group_id = "${aws_security_group.kubernetes.id}"
-# }
 
 ##########
 # Keypair

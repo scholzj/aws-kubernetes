@@ -44,3 +44,19 @@ variable "hosted_zone_private" {
     description = "Is the hosted zone public or private"
     default = false
 }
+
+variable ssh_access_cidr {
+  description = "Adresses from which SSH access is allowed"
+  type = "list"
+  default = [
+    "0.0.0.0/0"
+  ]
+}
+
+variable api_access_cidr {
+  description = "CIDR from which API access is allowed"
+  type = "list"
+  default = [
+    "0.0.0.0/0"
+  ]
+}

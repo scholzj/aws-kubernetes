@@ -46,3 +46,13 @@ addons = [
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml",
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml"
 ]
+
+# Adresses from which SSH access is allowed
+ssh_access_cidr = [
+    "0.0.0.0/0"
+]
+
+# Adresses from which API access is allowed
+api_access_cidr = [
+    "0.0.0.0/0"
+]
