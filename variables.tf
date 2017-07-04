@@ -12,6 +12,11 @@ variable "tags" {
     type        = "map"
 }
 
+variable "tags2" {
+    description = "Tags in format used for the AWS Autoscaling Group"
+    type        = "list"
+}
+
 variable "addons" {
     description = "list of YAML files with Kubernetes addons which should be installed"
     type        = "list"

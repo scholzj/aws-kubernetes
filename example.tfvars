@@ -22,6 +22,15 @@ tags = {
   Application = "AWS-Kubernetes"
 }
 
+# Tags in a different format for Auto Scaling Group
+tags2 = [
+  {
+    key                 = "Application"
+    value               = "AWS-Kubernetes"
+    propagate_at_launch = true
+  }
+]
+
 # Kubernetes Addons
 # Supported addons:
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml

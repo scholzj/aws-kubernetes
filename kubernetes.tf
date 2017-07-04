@@ -116,7 +116,6 @@ resource "aws_eip" "master" {
 }
 
 resource "aws_instance" "master" {
-    # Instance type - any of the c4 should do for now
     instance_type = "${var.aws_instance_type}"
 
     ami = "${data.aws_ami_ids.centos7.ids[0]}"
@@ -151,6 +150,14 @@ EOF
     }
 
     depends_on = ["data.template_file.kubeadm_token"]
+
+    lifecycle {
+      ignore_changes = [
+        "ami",
+        "user_data",
+        "associate_public_ip_address"
+      ]
+    }
 }
 
 resource "aws_eip_association" "master_assoc" {
@@ -163,6 +170,7 @@ resource "aws_eip_association" "master_assoc" {
 #####
 
 resource "aws_launch_configuration" "nodes" {
+  name          = "${var.cluster_name}-nodes"
   image_id      = "${data.aws_ami_ids.centos7.ids[0]}"
   instance_type = "${var.aws_instance_type}"
   key_name = "${aws_key_pair.keypair.key_name}"
@@ -180,7 +188,7 @@ export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
 export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
 export ADDONS="${join(" ", var.addons)}"
 
-curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-nodes.sh | bash
+curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-node.sh | bash
 EOF
 
   root_block_device {
@@ -191,6 +199,9 @@ EOF
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [
+        "user_data"
+    ]
   }
 }
 
@@ -203,41 +214,19 @@ resource "aws_autoscaling_group" "nodes" {
   desired_capacity          = 1
   launch_configuration      = "${aws_launch_configuration.nodes.name}"
 
-  #tags = "${merge(map("Name", join("-", var.cluster_name, "master"), "KubernetesCluster", var.cluster_name), var.tags)}"
-
-  tag = {
+  tags = [{
     key = "Name"
     value = "${var.cluster_name}-node"
     propagate_at_launch = true
-  }
+  }]
 
-  tag = {
-    count = "${length(keys(var.tags))}"
-    key = "${element(keys(var.tags), count.index)}"
-    value = "${element(values(var.tags), count.index)}"
+  tags = [{
+    key = "KubernetesCluster"
+    value = "${var.cluster_name}"
     propagate_at_launch = true
-  }
+  }]
 
-  # tags = [
-  #   {
-  #     key                 = "explicit1"
-  #     value               = "value1"
-  #     propagate_at_launch = true
-  #   },
-  #   {
-  #     key                 = "explicit2"
-  #     value               = "value2"
-  #     propagate_at_launch = true
-  #   },
-  # ]
-
-  # tags = ["${concat(
-  #   list(
-  #     map("key", "interpolation1", "value", "value3", "propagate_at_launch", true),
-  #     map("key", "interpolation2", "value", "value4", "propagate_at_launch", true)
-  #   ),
-  #   var.extra_tags)
-  # }"]
+  tags = ["${var.tags2}"]
 }
 
 #####
