@@ -22,13 +22,23 @@ variable "addons" {
     type        = "list"
 }
 
-variable "aws_instance_type" {
-    description = "Type of instance"
+variable "master_instance_type" {
+    description = "Type of instance for master"
     default     = "t2.medium"
 }
 
-variable "aws_subnet_id" {
-    description = "The subnet-id to be used for the instance"
+variable "worker_instance_type" {
+    description = "Type of instance for workers"
+    default     = "t2.medium"
+}
+
+variable "master_subnet_id" {
+    description = "The subnet-id to be used for the master instance"
+}
+
+variable "worker_subnet_ids" {
+    description = "The subnet-ids to be used for the worker instances"
+    type = "list"
 }
 
 variable "ssh_public_key" {

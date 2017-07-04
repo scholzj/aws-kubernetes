@@ -96,13 +96,13 @@ resource "aws_eip" "master" {
 }
 
 resource "aws_instance" "master" {
-    instance_type = "${var.aws_instance_type}"
+    instance_type = "${var.master_instance_type}"
 
     ami = "${data.aws_ami_ids.centos7.ids[0]}"
 
     key_name = "${aws_key_pair.keypair.key_name}"
 
-    subnet_id = "${var.aws_subnet_id}"
+    subnet_id = "${var.master_subnet_id}"
 
     associate_public_ip_address = false
 
@@ -152,7 +152,7 @@ resource "aws_eip_association" "master_assoc" {
 resource "aws_launch_configuration" "nodes" {
   name          = "${var.cluster_name}-nodes"
   image_id      = "${data.aws_ami_ids.centos7.ids[0]}"
-  instance_type = "${var.aws_instance_type}"
+  instance_type = "${var.worker_instance_type}"
   key_name = "${aws_key_pair.keypair.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.node_profile.name}"
 
@@ -186,7 +186,7 @@ EOF
 }
 
 resource "aws_autoscaling_group" "nodes" {
-  vpc_zone_identifier = ["${var.aws_subnet_id}"]
+  vpc_zone_identifier = "${var.worker_subnet_ids}"
   
   name                      = "${var.cluster_name}-nodes"
   max_size                  = 1
