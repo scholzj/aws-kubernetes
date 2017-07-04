@@ -13,7 +13,9 @@ ssh_public_key = "~/.ssh/id_rsa.pub"
 
 # Subnet ID where the cluster should run
 master_subnet_id = "subnet-8a3517f8"
-worker_subnet_ids = ["subnet-8a3517f8"]
+worker_subnet_ids = [
+    "subnet-8a3517f8"
+]
 
 # Number of worker nodes
 worker_count = 3
