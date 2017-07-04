@@ -142,7 +142,7 @@ export ADDONS="${join(" ", var.addons)}"
 curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-master.sh | bash
 EOF
 
-    tags = "${merge(map("Name", join("-", var.cluster_name, "master"), "KubernetesCluster", var.cluster_name), var.tags)}"
+    tags = "${merge(map("Name", join("-", list(var.cluster_name, "master")), "KubernetesCluster", var.cluster_name), var.tags)}"
 
     root_block_device {
         volume_type = "gp2"
@@ -168,7 +168,7 @@ resource "aws_launch_configuration" "nodes" {
   key_name = "${aws_key_pair.keypair.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.node_profile.name}"
 
-  vpc_security_group_ids = [
+  security_groups = [
       "${aws_security_group.kubernetes.id}"
   ]
 
@@ -194,7 +194,7 @@ EOF
   }
 }
 
-resource "aws_autoscaling_group" "bar" {
+resource "aws_autoscaling_group" "nodes" {
   vpc_zone_identifier = ["${var.aws_subnet_id}"]
   
   name                      = "${var.cluster_name}-nodes"
@@ -204,6 +204,12 @@ resource "aws_autoscaling_group" "bar" {
   launch_configuration      = "${aws_launch_configuration.nodes.name}"
 
   #tags = "${merge(map("Name", join("-", var.cluster_name, "master"), "KubernetesCluster", var.cluster_name), var.tags)}"
+
+  tag = {
+    key = "Name"
+    value = "${var.cluster_name}-node"
+    propagate_at_launch = true
+  }
 
   tag = {
     count = "${length(keys(var.tags))}"
