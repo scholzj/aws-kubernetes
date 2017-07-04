@@ -15,6 +15,9 @@ ssh_public_key = "~/.ssh/id_rsa.pub"
 master_subnet_id = "subnet-8a3517f8"
 worker_subnet_ids = ["subnet-8a3517f8"]
 
+# Number of worker nodes
+worker_count = 3
+
 # DNS zone where the domain is placed
 hosted_zone = "my-domain.com"
 hosted_zone_private = false

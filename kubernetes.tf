@@ -189,9 +189,9 @@ resource "aws_autoscaling_group" "nodes" {
   vpc_zone_identifier = "${var.worker_subnet_ids}"
   
   name                      = "${var.cluster_name}-nodes"
-  max_size                  = 1
-  min_size                  = 1
-  desired_capacity          = 1
+  max_size                  = "${var.worker_count}"
+  min_size                  = "${var.worker_count}"
+  desired_capacity          = "${var.worker_count}"
   launch_configuration      = "${aws_launch_configuration.nodes.name}"
 
   tags = [{

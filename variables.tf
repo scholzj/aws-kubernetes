@@ -41,6 +41,10 @@ variable "worker_subnet_ids" {
     type = "list"
 }
 
+variable "worker_count" {
+    description = "Number of worker nodes"
+}
+
 variable "ssh_public_key" {
     description = "Path to the pulic part of SSH key which should be used for the instance"
     default = "~/.ssh/id_rsa.pub"
