@@ -2,12 +2,12 @@
 # Security Group
 #####
 
-data "aws_subnet" "minikube_subnet" {
-  id = "${var.aws_subnet_id}"
+data "aws_subnet" "master_subnet" {
+  id = "${var.master_subnet_id}"
 }
 
 resource "aws_security_group" "kubernetes" {
-  vpc_id = "${data.aws_subnet.minikube_subnet.vpc_id}"
+  vpc_id = "${data.aws_subnet.master_subnet.vpc_id}"
   name = "${var.cluster_name}"
 
   tags = "${merge(map("Name", var.cluster_name, "KubernetesCluster", var.cluster_name), var.tags)}"
