@@ -2,6 +2,8 @@
 
 AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernetes.io/docs/admin/kubeadm/) tool. It provides full integration with AWS. It is able to handle ELB load balancers, EBS disks, Route53 domains etc.
 
+**This installation is taylored for Deutsche Boerse ProductDev AWS account.  It might not work in normal AWS account! For Sandbox and private accounts, use the repo on [GitHub](https://github.com/scholzj/aws-kubernetes)**
+
 <!-- TOC -->
 
 - [AWS Kubernetes](#aws-kubernetes)
@@ -17,7 +19,6 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Prerequisites and dependencies
 
-* AWS Kubernetes deployes into existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one.
 * To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
 ## Configuration
@@ -45,6 +46,12 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 
 To create AWS Kubernetes cluster, 
 * Export AWS credentials into environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+* Create the IAM role:
+```bash
+cd iam_role
+terraform apply --var-file ../example.tfvars
+cd ..
+```
 * Apply Terraform configuration:
 ```bash
 terraform apply --var-file example.tfvars
@@ -57,6 +64,12 @@ To delete AWS Kubernetes cluster,
 * Destroy Terraform configuration:
 ```bash
 terraform destroy --var-file example.tfvars
+```
+* Delete the IAM role (currently not possible due to limitations on AWS / ProductDev side):
+```bash
+cd iam_role
+terraform destroy --var-file ../example.tfvars
+cd ..
 ```
 
 ## Addons
@@ -76,4 +89,4 @@ Custom addons can be added if needed. Fro every URL in the `addons` list, the in
 
 ## Tagging
 
-If you need to tag resources created by your Kubernetes cluster (EBS volumes, ELB load balancers etc.) check [this AWS Lambda function which can do the tagging](https://github.com/scholzj/aws-kubernetes-tagging-lambda).
+When you operate Kubernetes cluster, you will sooner or later create some additional resources like volumes or load balancers. These resources should be tagged with product, cost center etc. Install the [tagging lambda](https://github.deutsche-boerse.de/schojak/kubernetes-tagging-lambda) to automatically tag the resources you create.

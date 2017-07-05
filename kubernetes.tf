@@ -91,10 +91,6 @@ data "aws_ami_ids" "centos7" {
 # Master - EC2 instance
 #####
 
-resource "aws_eip" "master" {
-  vpc      = true
-}
-
 resource "aws_instance" "master" {
     instance_type = "${var.master_instance_type}"
 
@@ -110,7 +106,7 @@ resource "aws_instance" "master" {
         "${aws_security_group.kubernetes.id}"
     ]
 
-    iam_instance_profile = "${aws_iam_instance_profile.master_profile.name}"
+    iam_instance_profile = "${var.dbg_naming_prefix}${var.cluster_name}-master"
 
     user_data = <<EOF
 #!/bin/bash
@@ -140,11 +136,6 @@ EOF
     }
 }
 
-resource "aws_eip_association" "master_assoc" {
-  instance_id   = "${aws_instance.master.id}"
-  allocation_id = "${aws_eip.master.id}"
-}
-
 #####
 # Nodes
 #####
@@ -154,13 +145,13 @@ resource "aws_launch_configuration" "nodes" {
   image_id      = "${data.aws_ami_ids.centos7.ids[0]}"
   instance_type = "${var.worker_instance_type}"
   key_name = "${aws_key_pair.keypair.key_name}"
-  iam_instance_profile = "${aws_iam_instance_profile.node_profile.name}"
+  iam_instance_profile = "${var.dbg_naming_prefix}${var.cluster_name}-node"
 
   security_groups = [
       "${aws_security_group.kubernetes.id}"
   ]
 
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   user_data = <<EOF
 #!/bin/bash
@@ -222,7 +213,7 @@ resource "aws_route53_record" "master" {
   zone_id = "${data.aws_route53_zone.dns_zone.zone_id}"
   name    = "${var.cluster_name}.${var.hosted_zone}"
   type    = "A"
-  records = ["${aws_eip.master.public_ip}"]
+  records = ["${aws_instance.master.private_ip}"]
   ttl     = 300
 }
 

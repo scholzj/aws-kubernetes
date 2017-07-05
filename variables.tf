@@ -69,3 +69,8 @@ variable api_access_cidr {
     "0.0.0.0/0"
   ]
 }
+
+variable "dbg_naming_prefix" {
+    description = "Prefix of the IAM role name"
+    default = "DBG-DEV-"
+}
