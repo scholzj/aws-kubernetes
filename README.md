@@ -66,7 +66,6 @@ Currently, following addons are supported:
 * Kubernetes dashboard
 * Heapster for resource monitoring
 * Storage class for automatic provisioning of persisitent volumes
-* Route53 Mapper (Obsolete - Replaced by External DNS)
 * External DNS (Replaces Route53 mapper)
 * Ingress
 
