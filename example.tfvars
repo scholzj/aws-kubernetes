@@ -1,17 +1,17 @@
 # AWS region where should the AWS Kubernetes be deployed
 aws_region    = "eu-central-1"
 
-# Name for role, policy and cloud formation stack
+# Name for AWS resources
 cluster_name  = "aws-kubernetes"
 
-# Instance types
+# Instance types for mster and worker nodes
 master_instance_type = "t2.medium"
 worker_instance_type = "t2.medium"
 
 # SSH key for the machines
 ssh_public_key = "~/.ssh/id_rsa.pub"
 
-# Subnet ID where the cluster should run
+# Subnet IDs where the cluster should run
 master_subnet_id = "subnet-8a3517f8"
 worker_subnet_ids = [
     "subnet-8a3517f8"
