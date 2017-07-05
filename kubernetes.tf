@@ -2,12 +2,12 @@
 # Security Group
 #####
 
-data "aws_subnet" "master_subnet" {
-  id = "${var.master_subnet_id}"
+data "aws_subnet" "cluster_subnet" {
+  id = "${var.subnet_id}"
 }
 
 resource "aws_security_group" "kubernetes" {
-  vpc_id = "${data.aws_subnet.master_subnet.vpc_id}"
+  vpc_id = "${data.aws_subnet.cluster_subnet.vpc_id}"
   name = "${var.cluster_name}"
 
   tags = "${merge(map("Name", var.cluster_name, "KubernetesCluster", var.cluster_name), var.tags)}"
@@ -186,7 +186,7 @@ EOF
 }
 
 resource "aws_autoscaling_group" "nodes" {
-  vpc_zone_identifier = "${var.subnet_id}"
+  vpc_zone_identifier = [ "${var.subnet_id}" ]
   
   name                      = "${var.cluster_name}-nodes"
   max_size                  = "${var.worker_count}"
