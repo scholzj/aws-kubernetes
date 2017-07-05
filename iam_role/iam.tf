@@ -20,7 +20,7 @@ resource "aws_iam_policy" "iam_role_policy" {
 #####
 
 resource "aws_cloudformation_stack" "iam_role" {
-  name          = "${var.cluster_name}"
+  name          = "${var.cluster_name}-tagging-lambda"
   template_url  = "${var.template_url}"
 
   parameters {
