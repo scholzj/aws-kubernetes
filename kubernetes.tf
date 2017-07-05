@@ -102,7 +102,7 @@ resource "aws_instance" "master" {
 
     key_name = "${aws_key_pair.keypair.key_name}"
 
-    subnet_id = "${var.master_subnet_id}"
+    subnet_id = "${var.subnet_id}"
 
     associate_public_ip_address = false
 
@@ -186,7 +186,7 @@ EOF
 }
 
 resource "aws_autoscaling_group" "nodes" {
-  vpc_zone_identifier = "${var.worker_subnet_ids}"
+  vpc_zone_identifier = "${var.subnet_id}"
   
   name                      = "${var.cluster_name}-nodes"
   max_size                  = "${var.worker_count}"

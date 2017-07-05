@@ -31,8 +31,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `master_instance_type` | AWS EC2 instance type for master | `t2.medium` |
 | `worker_instance_type` | AWS EC2 instance type for worker | `t2.medium` |
 | `ssh_public_key` | SSH key to connect to the remote machine | `~/.ssh/id_rsa.pub` |
-| `master_subnet_id` | Subnet ID where master should run | `subnet-8d3407e5` |
-| `worker_subnet_ids` | List of subnet IDs where workers should run | `[ "subnet-8d3407e5" ]` |
+| `subnet_id` | Subnet ID where the cluster should run | `subnet-8d3407e5` |
 | `worker_count` | Number of worker nodes | `3` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |

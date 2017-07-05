@@ -32,13 +32,8 @@ variable "worker_instance_type" {
     default     = "t2.medium"
 }
 
-variable "master_subnet_id" {
+variable "subnet_id" {
     description = "The subnet-id to be used for the master instance"
-}
-
-variable "worker_subnet_ids" {
-    description = "The subnet-ids to be used for the worker instances"
-    type = "list"
 }
 
 variable "worker_count" {

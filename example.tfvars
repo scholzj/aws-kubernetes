@@ -11,11 +11,8 @@ worker_instance_type = "t2.medium"
 # SSH key for the machines
 ssh_public_key = "~/.ssh/id_rsa.pub"
 
-# Subnet IDs where the cluster should run
-master_subnet_id = "subnet-8a3517f8"
-worker_subnet_ids = [
-    "subnet-8a3517f8"
-]
+# Subnet ID where the cluster should run
+subnet_id = "subnet-8a3517f8"
 
 # Number of worker nodes
 worker_count = 3
