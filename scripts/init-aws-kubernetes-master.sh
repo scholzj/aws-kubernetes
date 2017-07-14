@@ -65,7 +65,7 @@ rm /tmp/kubeadm.yaml
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
 # Install calico
-kubectl apply -f https://s3.amazonaws.com/scholzj-kubernetes/minikube/calico.yaml
+kubectl apply -f https://s3.amazonaws.com/scholzj-kubernetes/cluster/calico.yaml
 
 # Allow the user to administer the cluster
 kubectl create clusterrolebinding admin-cluster-binding --clusterrole=cluster-admin --user=admin
