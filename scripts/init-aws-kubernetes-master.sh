@@ -9,7 +9,7 @@ if [ -z "$KUBERNETES_VERSION" ]; then
 fi
 
 if [ -z "$CLUSTER_NAME" ]; then
-  CLUSTER_NAME="aws-minikube"
+  CLUSTER_NAME="aws-kubernetes"
 fi
 
 # Set this only after setting the defaults
