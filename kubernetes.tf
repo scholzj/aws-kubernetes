@@ -118,8 +118,8 @@ export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
 export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
 export CLUSTER_NAME=${var.cluster_name}
 export ASG_NAME=${var.cluster_name}-nodes
-export ASG_MIN_NODES="${var.worker_count}"
-export ASG_MAX_NODES="${var.worker_count*2}"
+export ASG_MIN_NODES="${var.min_worker_count}"
+export ASG_MAX_NODES="${var.max_worker_count}"
 export AWS_REGION=${var.aws_region}
 export ADDONS="${join(" ", var.addons)}"
 
@@ -195,9 +195,9 @@ resource "aws_autoscaling_group" "nodes" {
   vpc_zone_identifier = [ "${var.subnet_id}" ]
   
   name                      = "${var.cluster_name}-nodes"
-  max_size                  = "${var.worker_count}"
-  min_size                  = "${var.worker_count}"
-  desired_capacity          = "${var.worker_count}"
+  max_size                  = "${var.min_worker_count}"
+  min_size                  = "${var.min_worker_count}"
+  desired_capacity          = "${var.min_worker_count}"
   launch_configuration      = "${aws_launch_configuration.nodes.name}"
 
   tags = [{
