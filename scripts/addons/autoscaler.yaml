@@ -34,6 +34,8 @@ spec:
             - ./cluster-autoscaler
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
+            - --scale-down-delay=10m
+            - --skip-nodes-with-system-pods=false
             - --nodes=${ASG_MIN_NODES}:${ASG_MAX_NODES}:${ASG_NAME}
           env:
             - name: AWS_REGION
@@ -97,6 +99,12 @@ rules:
   verbs:
   - watch
   - list
+- apiGroups:
+  - ""
+  resources:
+  - pods/status
+  verbs:
+  - update
 - apiGroups:
   - extensions
   resources:
