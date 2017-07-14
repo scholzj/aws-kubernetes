@@ -118,6 +118,9 @@ export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
 export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
 export CLUSTER_NAME=${var.cluster_name}
 export ASG_NAME=${var.cluster_name}-nodes
+export ASG_MIN_NODES="${var.worker_count}"
+export ASG_MAX_NODES="${var.worker_count*2}"
+export AWS_REGION=${var.aws_region}
 export ADDONS="${join(" ", var.addons)}"
 
 curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-master.sh | bash

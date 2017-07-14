@@ -35,7 +35,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `worker_count` | Number of worker nodes | `3` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |
-| `addons` | List of addons which should be installed | `[ "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml" ]` |
+| `addons` | List of addons which should be installed | `[ "https://..." ]` |
 | `tags` | Tags which should be applied to all resources | `[ { Hello = "World" } ]` |
 | `tags2` | Tags in second format which should be applied to AS groups | `[ { key = "Hello" value = "World" propagate_at_launch = true } ]` |
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
@@ -67,6 +67,7 @@ Currently, following addons are supported:
 * Storage class for automatic provisioning of persisitent volumes
 * External DNS (Replaces Route53 mapper)
 * Ingress
+* Autoscaler
 
 The addons will be installed automatically based on the Terraform variables. 
 
