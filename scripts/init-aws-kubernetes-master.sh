@@ -2,10 +2,18 @@
 
 set -o verbose
 set -o errexit
-set -o nounset
 set -o pipefail
 
-KUBERNETES_VERSION="1.7.0"
+if [ -z "$KUBERNETES_VERSION" ]; then
+  KUBERNETES_VERSION="1.7.0"
+fi
+
+if [ -z "$CLUSTER_NAME" ]; then
+  CLUSTER_NAME="aws-minikube"
+fi
+
+# Set this only after setting the defaults
+set -o nounset
 
 # Set fully qualified hostname
 # This is needed to match the hostname expected by kubeadm an the hostname used by kubelet
@@ -82,5 +90,7 @@ chmod 0600 $KUBECONFIG_OUTPUT
 # Load addons
 for ADDON in $ADDONS
 do
-  kubectl apply -f $ADDON
+  curl $ADDON | envsubst > /tmp/addon.yaml
+  kubectl apply -f /tmp/addon.yaml
+  rm /tmp/addon.yaml
 done
