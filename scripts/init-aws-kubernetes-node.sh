@@ -24,6 +24,10 @@ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce
 yum makecache fast
 yum install -y docker-ce
 
+# Set settings needed by Docker
+sysctl net.bridge.bridge-nf-call-iptables=1
+sysctl net.bridge.bridge-nf-call-ip6tables=1
+
 # Install Kubernetes components
 sudo cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
