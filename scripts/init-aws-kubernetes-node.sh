@@ -54,7 +54,7 @@ sysctl net.bridge.bridge-nf-call-iptables=1
 sysctl net.bridge.bridge-nf-call-ip6tables=1
 
 # Fix certificates file on CentOS
-if $(cat /etc/*release | grep ^NAME= | grep CentOS) ; then
+if cat /etc/*release | grep ^NAME= | grep CentOS ; then
     rm -rf /etc/ssl/certs/ca-certificates.crt/
     cp /etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
 fi
