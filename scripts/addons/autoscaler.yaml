@@ -106,6 +106,13 @@ rules:
   - watch
   - list
 - apiGroups:
+  - apps
+  resources:
+  - statefulsets
+  verbs:
+  - watch
+  - list
+- apiGroups:
   - policy
   resources:
   - poddisruptionbudgets
