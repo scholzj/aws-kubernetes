@@ -116,6 +116,8 @@ resource "aws_instance" "master" {
 #!/bin/bash
 export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
 export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
+export CLUSTER_NAME=${var.cluster_name}
+export ASG_NAME=${var.cluster_name}-nodes
 export ADDONS="${join(" ", var.addons)}"
 
 curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-master.sh | bash
@@ -166,6 +168,7 @@ resource "aws_launch_configuration" "nodes" {
 #!/bin/bash
 export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
 export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
+export CLUSTER_NAME=${var.cluster_name}
 export ADDONS="${join(" ", var.addons)}"
 
 curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-node.sh | bash
