@@ -33,12 +33,13 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `worker_instance_type` | AWS EC2 instance type for worker | `t2.medium` |
 | `ssh_public_key` | SSH key to connect to the remote machine | `~/.ssh/id_rsa.pub` |
 | `subnet_id` | Subnet ID where the cluster should run | `subnet-8d3407e5` |
-| `worker_count` | Number of worker nodes | `3` |
+| `min_worker_count` | Minimal number of worker nodes | `3` |
+| `max_worker_count` | Maximal number of worker nodes | `6` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |
-| `addons` | List of addons which should be installed | `[ "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml" ]` |
-| `tags` | Tags which should be applied to all resources | `[ { Hello = "World" } ]` |
-| `tags2` | Tags in second format which should be applied to AS groups | `[ { key = "Hello" value = "World" propagate_at_launch = true } ]` |
+| `addons` | List of addons which should be installed | `[ "https://..." ]` |
+| `tags` | Tags which should be applied to all resources | see *example.tfvars* file |
+| `tags2` | Tags in second format which should be applied to AS groups | see *example.tfvars* file |
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
 | `api_access_cidr` | List of CIDRs from which API access is allowed | `[ "0.0.0.0/0" ]` |
 
@@ -80,6 +81,7 @@ Currently, following addons are supported:
 * Storage class for automatic provisioning of persisitent volumes
 * External DNS (Replaces Route53 mapper)
 * Ingress
+* Autoscaler
 
 The addons will be installed automatically based on the Terraform variables. 
 

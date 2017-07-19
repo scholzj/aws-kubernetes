@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "cluster_name" {
-    description = "Name of the AWS Minikube cluster - will be used to name all created resources"
+    description = "Name of the AWS Kubernetes cluster - will be used to name all created resources"
 }
 
 variable "tags" {
@@ -36,8 +36,12 @@ variable "subnet_id" {
     description = "The subnet-id to be used for the master instance"
 }
 
-variable "worker_count" {
-    description = "Number of worker nodes"
+variable "min_worker_count" {
+    description = "Minimal number of worker nodes"
+}
+
+variable "max_worker_count" {
+  description = "Maximal number of worker nodes"
 }
 
 variable "ssh_public_key" {

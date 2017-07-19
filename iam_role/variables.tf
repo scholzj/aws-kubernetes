@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "cluster_name" {
-    description = "Name of the AWS Minikube cluster - will be used to name all created resources"
+    description = "Name of the AWS Kubernetes cluster - will be used to name all created resources"
 }
 
 variable "dbg_naming_prefix" {

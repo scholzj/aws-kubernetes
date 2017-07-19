@@ -15,7 +15,9 @@ ssh_public_key = "~/.ssh/id_rsa.pub"
 subnet_id = "subnet-8a3517f8"
 
 # Number of worker nodes
-worker_count = 3
+min_worker_count = 3
+max_worker_count = 6
+
 
 # DNS zone where the domain is placed
 hosted_zone = "my-domain.com"
@@ -41,13 +43,16 @@ tags2 = [
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/ingress.yaml"
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/ingress.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml
+
 
 addons = [
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml",
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml",
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml"
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml",
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml"
 ]
 
 # List of CIDRs from which SSH access is allowed
