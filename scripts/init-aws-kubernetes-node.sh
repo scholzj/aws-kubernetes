@@ -5,7 +5,7 @@ set -o errexit
 set -o pipefail
 
 if [ -z "$KUBERNETES_VERSION" ]; then
-  KUBERNETES_VERSION="1.7.0"
+  KUBERNETES_VERSION="1.7.3"
 fi
 
 # Set this only after setting the defaults
