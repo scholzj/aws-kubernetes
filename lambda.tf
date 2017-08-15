@@ -3,13 +3,6 @@
 #####
 
 #####
-# IAM role
-#####
-data "aws_iam_role" "iam_role" {
-  role_name = "${var.dbg_naming_prefix}${var.cluster_name}-tagging-lambda"
-}
-
-#####
 # Lambda Function
 #####
 
@@ -43,11 +36,11 @@ resource "null_resource" "zip_lambda" {
 # Create lambda
 
 resource "aws_lambda_function" "tagging" {
-  depends_on = ["data.aws_iam_role.iam_role", "null_resource.zip_lambda"]
+  depends_on = ["null_resource.zip_lambda"]
 
   filename      = "/tmp/tagging_lambda.zip"
   function_name = "${var.cluster_name}-tagging-lambda"
-  role          = "${data.aws_iam_role.iam_role.arn}"
+  role          = "${aws_iam_role.iam_role.arn}"
   handler       = "tagging_lambda.lambda_handler"
   runtime       = "python2.7"
   timeout       = "60"
