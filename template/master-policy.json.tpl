@@ -20,7 +20,10 @@
                 "route53:ListResourceRecordSets",
                 "route53:GetChange",
                 "autoscaling:DescribeAutoScalingGroups",
-                "autoscaling:UpdateAutoScalingGroup"
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup"
                 ],
             "Resource": "*"
         }
