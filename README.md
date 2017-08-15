@@ -17,7 +17,7 @@ When you operate Kubernetes cluster, you will sooner or later create some additi
 
 ## Prerequisites and dependencies
 
-* The Lambda deployment is written using [Terraform](https://www.terraform.io)
+* The Lambda deployment is written using [Terraform](https://www.terraform.io). The current setup with IAM roles integrated **needs at least Terraform 0.10.0**.
 * Generating of the lambda function from the template and packing it into ZIP archive expects `bash` and `zip` being available.
 * This deployment might not work on Windows machine. Tested only on Linux and macOS
 
@@ -35,11 +35,9 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 
 To deploy the tagging lambda, 
 * Export AWS credentials into environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
-* Create the IAM role:
+* Initialize Terraform:
 ```bash
-cd iam_role
-terraform apply --var-file ../example.tfvars 
-cd ..
+terraform init
 ```
 * Apply Terraform configuration with tagging lambda:
 ```bash
@@ -53,12 +51,6 @@ To delete tagging lambda,
 * Destroy Terraform configuration:
 ```bash
 terraform destroy --var-file example.tfvars
-```
-* Delete the IAM role (currently not possible due to limitations on AWS / ProductDev side):
-```bash
-cd iam_role
-terraform destroy --var-file ../example.tfvars
-cd ..
 ```
 
 ## Tagged resources
