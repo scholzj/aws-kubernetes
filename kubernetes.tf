@@ -106,7 +106,7 @@ resource "aws_instance" "master" {
         "${aws_security_group.kubernetes.id}"
     ]
 
-    iam_instance_profile = "${var.dbg_naming_prefix}${var.cluster_name}-master"
+    iam_instance_profile = "${aws_iam_instance_profile.master_instance_profile.name}"
 
     user_data = <<EOF
 #!/bin/bash
@@ -145,7 +145,7 @@ resource "aws_launch_configuration" "nodes" {
   image_id      = "${data.aws_ami_ids.centos7.ids[0]}"
   instance_type = "${var.worker_instance_type}"
   key_name = "${aws_key_pair.keypair.key_name}"
-  iam_instance_profile = "${var.dbg_naming_prefix}${var.cluster_name}-node"
+  iam_instance_profile = "${aws_iam_instance_profile.node_instance_profile.name}"
 
   security_groups = [
       "${aws_security_group.kubernetes.id}"

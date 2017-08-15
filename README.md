@@ -19,7 +19,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Prerequisites and dependencies
 
-* To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
+* To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). The current setup with IAM roles integrated **needs at least Terraform 0.10.0**. Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
 ## Configuration
 
@@ -46,11 +46,9 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 
 To create AWS Kubernetes cluster, 
 * Export AWS credentials into environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
-* Create the IAM role:
+* Initialize Terraform:
 ```bash
-cd iam_role
-terraform apply --var-file ../example.tfvars
-cd ..
+terraform init
 ```
 * Apply Terraform configuration:
 ```bash
@@ -64,12 +62,6 @@ To delete AWS Kubernetes cluster,
 * Destroy Terraform configuration:
 ```bash
 terraform destroy --var-file example.tfvars
-```
-* Delete the IAM role (currently not possible due to limitations on AWS / ProductDev side):
-```bash
-cd iam_role
-terraform destroy --var-file ../example.tfvars
-cd ..
 ```
 
 ## Addons
