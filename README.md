@@ -5,6 +5,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 <!-- TOC -->
 
 - [AWS Kubernetes](#aws-kubernetes)
+    - [Updates](#updates)
     - [Prerequisites and dependencies](#prerequisites-and-dependencies)
     - [Configuration](#configuration)
     - [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
@@ -14,6 +15,10 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
     - [Tagging](#tagging)
 
 <!-- /TOC -->
+
+## Updates
+
+* *22.8.2017:* Update Kubernetes and Kubeadm to 1.7.4
 
 ## Prerequisites and dependencies
 
