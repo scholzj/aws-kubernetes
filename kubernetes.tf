@@ -76,13 +76,9 @@ resource "aws_key_pair" "keypair" {
 # AMI image
 #####
 
-data "aws_ami_ids" "centos7" {
-  owners = ["aws-marketplace"]
-
-  filter {
-    name   = "product-code"
-    values = ["aw0evgkw8e5c1q413zgy5pjce"]
-  }
+data "aws_ami" "centos7" {
+  most_recent = true
+  name_regex = "^baseimage-CentOS-7-\\d{4}-\\d{2}-\\d{2}\\.*"
 
   filter {
     name   = "architecture"
@@ -102,7 +98,7 @@ data "aws_ami_ids" "centos7" {
 resource "aws_instance" "master" {
     instance_type = "${var.master_instance_type}"
 
-    ami = "${data.aws_ami_ids.centos7.ids[0]}"
+    ami = "${data.aws_ami.centos7.id}"
 
     key_name = "${aws_key_pair.keypair.key_name}"
 
@@ -155,7 +151,7 @@ EOF
 
 resource "aws_launch_configuration" "nodes" {
   name          = "${var.cluster_name}-nodes"
-  image_id      = "${data.aws_ami_ids.centos7.ids[0]}"
+  image_id      = "${data.aws_ami.centos7.id}"
   instance_type = "${var.worker_instance_type}"
   key_name = "${aws_key_pair.keypair.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.node_instance_profile.name}"
