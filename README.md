@@ -8,6 +8,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
     - [Updates](#updates)
     - [Prerequisites and dependencies](#prerequisites-and-dependencies)
     - [Configuration](#configuration)
+        - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
     - [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
     - [Deleting AWS Kubernetes cluster](#deleting-aws-kubernetes-cluster)
     - [Addons](#addons)
@@ -36,7 +37,8 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `master_instance_type` | AWS EC2 instance type for master | `t2.medium` |
 | `worker_instance_type` | AWS EC2 instance type for worker | `t2.medium` |
 | `ssh_public_key` | SSH key to connect to the remote machine | `~/.ssh/id_rsa.pub` |
-| `subnet_id` | Subnet ID where the cluster should run | `subnet-8d3407e5` |
+| `master_subnet_id` | Subnet ID where master should run | `subnet-8d3407e5` |
+| `worker_subnet_ids` | List of subnet IDs where workers should run | `[ "subnet-8d3407e5" ]` |
 | `min_worker_count` | Minimal number of worker nodes | `3` |
 | `max_worker_count` | Maximal number of worker nodes | `6` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
@@ -46,6 +48,10 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `tags2` | Tags in second format which should be applied to AS groups | see *example.tfvars* file |
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
 | `api_access_cidr` | List of CIDRs from which API access is allowed | `[ "0.0.0.0/0" ]` |
+
+### Using multiple / different subnets for workers nodea
+
+If you want to run workers in additional / different subnet(s) than master you have to tag the subnets with `kubernetes.io/cluster/{cluster_name}=shared`. For example `kubernetes.io/cluster/my-aws-kubernetes=shared`. *This tagging is not done by this script!* The subnets should belong to the same VPC as the master subnet. Running workers in different subnets accross several AWS availability zones will give you more resilient setup which might help your applications to survive issues relevant to single AWS AZ. Keep in mind that the master is still single node only.
 
 ## Creating AWS Kubernetes cluster
 

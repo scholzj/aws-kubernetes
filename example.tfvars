@@ -11,8 +11,17 @@ worker_instance_type = "t2.medium"
 # SSH key for the machines
 ssh_public_key = "~/.ssh/id_rsa.pub"
 
-# Subnet ID where the cluster should run
-subnet_id = "subnet-8a3517f8"
+# Subnet IDs where the cluster should run (should belong to the same VPC)
+# - Master can be only in single subnet
+# - Workers can be in multiple subnets
+# - Worker subnets can contain also the master subnet
+# - If you want to run workers in different subnet(s) than master you have to tag the subnets with kubernetes.io/cluster/{cluster_name}=shared
+master_subnet_id = "subnet-8a3517f8"
+worker_subnet_ids = [		
+    "subnet-8a3517f8",
+    "subnet-9b7853f7",
+    "subnet-8g9sdfv8"
+]
 
 # Number of worker nodes
 min_worker_count = 3
