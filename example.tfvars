@@ -53,13 +53,15 @@ tags2 = [
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/ingress.yaml
 # https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml
+# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/fluentd-es-kibana-logging.yaml
 
 addons = [
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml",
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml",
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml",
   "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml"
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml",
+  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/fluentd-es-kibana-logging.yaml"
 ]
 
 # List of CIDRs from which SSH access is allowed
