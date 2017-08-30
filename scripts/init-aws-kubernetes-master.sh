@@ -12,6 +12,10 @@ if [ -z "$CLUSTER_NAME" ]; then
   CLUSTER_NAME="aws-kubernetes"
 fi
 
+if [ -z "$AWS_SUBNETS" ]; then
+  AWS_SUBNETS="$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(curl http://169.254.169.254/latest/meta-data/mac)/subnet-id)"
+fi
+
 # Set this only after setting the defaults
 set -o nounset
 
