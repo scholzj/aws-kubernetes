@@ -11,9 +11,6 @@ worker_instance_type = "t2.medium"
 # SSH key for the machines
 ssh_public_key = "~/.ssh/id_rsa.pub"
 
-# Subnet ID where the cluster should run
-subnet_id = "subnet-8a3517f8"
-
 # Subnet IDs where the cluster should run (should belong to the same VPC)
 # - Master can be only in single subnet
 # - Workers can be in multiple subnets
