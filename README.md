@@ -20,6 +20,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 ## Updates
 
 * *22.8.2017:* Update Kubernetes and Kubeadm to 1.7.4
+* *30.8.2017:* New addon - Fluentd + ElasticSearch + Kibana
 
 ## Prerequisites and dependencies
 
@@ -80,12 +81,13 @@ Currently, following addons are supported:
 * External DNS (Replaces Route53 mapper)
 * Ingress
 * Autoscaler
+* Logging with Fluentd + ElasticSearch + Kibana
 
 The addons will be installed automatically based on the Terraform variables. 
 
 ## Custom addons
 
-Custom addons can be added if needed. Fro every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
+Custom addons can be added if needed. For every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
 
 ## Tagging
 
