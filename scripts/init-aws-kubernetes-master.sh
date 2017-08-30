@@ -22,6 +22,12 @@ hostname $(hostname -f)
 # Make DNS lowercase
 DNS_NAME=$(echo "${DNS_NAME}" | tr 'A-Z' 'a-z')
 
+# Tag subnets
+for SUBNET in $AWS_SUBNETS
+do
+  aws ec2 create-tags --resources ${SUBNET} --tags Key=kubernetes.io/cluster/${CLUSTER_NAME},Value=shared --region ${AWS_REGION}
+done
+
 # Install docker
 yum install -y yum-utils device-mapper-persistent-data lvm2
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
