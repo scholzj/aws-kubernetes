@@ -11,14 +11,14 @@ terraform {
 #####
 
 data "aws_subnet" "cluster_subnet" {
-  id = "${var.subnet_id}"
+  id = "${var.master_subnet_id}"
 }
 
 resource "aws_security_group" "kubernetes" {
   vpc_id = "${data.aws_subnet.cluster_subnet.vpc_id}"
   name = "${var.cluster_name}"
 
-  tags = "${merge(map("Name", var.cluster_name, "KubernetesCluster", var.cluster_name), var.tags)}"
+  tags = "${merge(map("Name", var.cluster_name, format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
 }
 
 # Allow outgoing connectivity
@@ -102,7 +102,7 @@ resource "aws_instance" "master" {
 
     key_name = "${aws_key_pair.keypair.key_name}"
 
-    subnet_id = "${var.subnet_id}"
+    subnet_id = "${var.master_subnet_id}"
 
     associate_public_ip_address = false
 
@@ -126,7 +126,7 @@ export ADDONS="${join(" ", var.addons)}"
 curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-master.sh | bash
 EOF
 
-    tags = "${merge(map("Name", join("-", list(var.cluster_name, "master")), "KubernetesCluster", var.cluster_name), var.tags)}"
+    tags = "${merge(map("Name", join("-", list(var.cluster_name, "master")), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
 
     root_block_device {
         volume_type = "gp2"
@@ -187,7 +187,7 @@ EOF
 }
 
 resource "aws_autoscaling_group" "nodes" {
-  vpc_zone_identifier = [ "${var.subnet_id}" ]
+  vpc_zone_identifier = "${var.worker_subnet_ids}"
   
   name                      = "${var.cluster_name}-nodes"
   max_size                  = "${var.max_worker_count}"
@@ -202,8 +202,8 @@ resource "aws_autoscaling_group" "nodes" {
   }]
 
   tags = [{
-    key = "KubernetesCluster"
-    value = "${var.cluster_name}"
+    key = "kubernetes.io/cluster/${var.cluster_name}"
+    value = "owned"
     propagate_at_launch = true
   }]
 
