@@ -6,7 +6,6 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "Elasticsearch"
 spec:
   ports:
@@ -25,7 +24,6 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -34,7 +32,6 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 rules:
 - apiGroups:
   - ""
@@ -53,7 +50,6 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 subjects:
 - kind: ServiceAccount
   name: elasticsearch-logging
@@ -74,7 +70,6 @@ metadata:
     k8s-app: elasticsearch-logging
     version: v5.5.1
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 spec:
   serviceName: elasticsearch-logging
   replicas: 1
@@ -498,8 +493,6 @@ data:
 metadata:
   name: fluentd-es-config-v0.1.0
   namespace: kube-system
-  labels:
-    addonmanager.kubernetes.io/mode: Reconcile
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -509,7 +502,6 @@ metadata:
   labels:
     k8s-app: fluentd-es
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -518,7 +510,6 @@ metadata:
   labels:
     k8s-app: fluentd-es
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 rules:
 - apiGroups:
   - ""
@@ -537,7 +528,6 @@ metadata:
   labels:
     k8s-app: fluentd-es
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 subjects:
 - kind: ServiceAccount
   name: fluentd-es
@@ -557,7 +547,6 @@ metadata:
     k8s-app: fluentd-es
     version: v2.0.1
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 spec:
   template:
     metadata:
@@ -622,7 +611,6 @@ metadata:
   labels:
     k8s-app: kibana-logging
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "Kibana"
 spec:
   ports:
@@ -640,7 +628,6 @@ metadata:
   labels:
     k8s-app: kibana-logging
     kubernetes.io/cluster-service: "true"
-    addonmanager.kubernetes.io/mode: Reconcile
 spec:
   replicas: 1
   selector:
