@@ -21,7 +21,7 @@ if 'Name' not in setTags.keys():
 
 # Tag the resources ...
 def lambda_handler(event, context):
-    filter = [{'Name':'tag:KubernetesCluster', 'Values':[cluster]}]
+    filter = [{'Name':'tag:kubernetes.io/cluster/' + cluster, 'Values':['owned']}]
 
     ec2 = boto3.resource('ec2', region_name=region)
 
