@@ -5,7 +5,4 @@
 *.tfstate.lock.info
 schojak.tfvars
 .terraform
-<<<<<<< HEAD
 jakub.tfvars
-=======
->>>>>>> 7770b382058331194add2e34c708a09cabaf251a
