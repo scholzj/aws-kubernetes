@@ -12,6 +12,10 @@ if [ -z "$CLUSTER_NAME" ]; then
   CLUSTER_NAME="aws-kubernetes"
 fi
 
+if [ -z "$AWS_SUBNETS" ]; then
+  AWS_SUBNETS="$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(curl http://169.254.169.254/latest/meta-data/mac)/subnet-id)"
+fi
+
 # Set this only after setting the defaults
 set -o nounset
 
@@ -21,6 +25,12 @@ hostname $(hostname -f)
 
 # Make DNS lowercase
 DNS_NAME=$(echo "${DNS_NAME}" | tr 'A-Z' 'a-z')
+
+# Tag subnets
+for SUBNET in $AWS_SUBNETS
+do
+  aws ec2 create-tags --resources ${SUBNET} --tags Key=kubernetes.io/cluster/${CLUSTER_NAME},Value=shared --region ${AWS_REGION}
+done
 
 # Install docker
 yum install -y yum-utils device-mapper-persistent-data lvm2

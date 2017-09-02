@@ -122,6 +122,7 @@ export ASG_NAME=${var.cluster_name}-nodes
 export ASG_MIN_NODES="${var.min_worker_count}"
 export ASG_MAX_NODES="${var.max_worker_count}"
 export AWS_REGION=${var.aws_region}
+export AWS_SUBNETS="${join(" ", var.worker_subnet_ids)}"
 export ADDONS="${join(" ", var.addons)}"
 
 curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-master.sh | bash

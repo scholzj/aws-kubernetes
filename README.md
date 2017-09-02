@@ -20,6 +20,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 ## Updates
 
 * *22.8.2017:* Update Kubernetes and Kubeadm to 1.7.4
+* *30.8.2017:* New addon - Fluentd + ElasticSearch + Kibana
 * *2.9.2017:* Update Kubernetes and Kubeadm to 1.7.5
 
 ## Prerequisites and dependencies
@@ -52,7 +53,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 
 ### Using multiple / different subnets for workers nodea
 
-If you want to run workers in additional / different subnet(s) than master you have to tag the subnets with `kubernetes.io/cluster/{cluster_name}=shared`. For example `kubernetes.io/cluster/my-aws-kubernetes=shared`. *This tagging is not done by this script!* The subnets should belong to the same VPC as the master subnet. Running workers in different subnets accross several AWS availability zones will give you more resilient setup which might help your applications to survive issues relevant to single AWS AZ. Keep in mind that the master is still single node only.
+In order to run workers in additional / different subnet(s) than master you have to tag the subnets with `kubernetes.io/cluster/{cluster_name}=shared`. For example `kubernetes.io/cluster/my-aws-kubernetes=shared`. During the cluster setup, the bootstrapping script will automatically add these tags to the subnets specified in `worker_subnet_ids`.
 
 ## Creating AWS Kubernetes cluster
 
@@ -81,12 +82,13 @@ Currently, following addons are supported:
 * External DNS (Replaces Route53 mapper)
 * Ingress
 * Autoscaler
+* Logging with Fluentd + ElasticSearch + Kibana
 
 The addons will be installed automatically based on the Terraform variables. 
 
 ## Custom addons
 
-Custom addons can be added if needed. Fro every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
+Custom addons can be added if needed. For every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
 
 ## Tagging
 
