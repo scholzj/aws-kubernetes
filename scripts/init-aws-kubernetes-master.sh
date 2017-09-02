@@ -26,6 +26,10 @@ hostname $(hostname -f)
 # Make DNS lowercase
 DNS_NAME=$(echo "${DNS_NAME}" | tr 'A-Z' 'a-z')
 
+# Install AWS CLI client
+yum install -y epel-release
+yum install -y awscli
+
 # Tag subnets
 for SUBNET in $AWS_SUBNETS
 do
