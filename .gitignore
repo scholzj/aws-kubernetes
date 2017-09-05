@@ -4,4 +4,8 @@
 *.tfstate.*.backup
 *.tfstate.lock.info
 schojak.tfvars
+wg379.tfvars
 .terraform
+
+#IntelliJ IDEA files
+.idea/workspace.xml
