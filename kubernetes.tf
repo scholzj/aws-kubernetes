@@ -124,7 +124,7 @@ export AWS_REGION=${var.aws_region}
 export AWS_SUBNETS="${join(" ", var.worker_subnet_ids)}"
 export ADDONS="${join(" ", var.addons)}"
 
-curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-master.sh | bash
+curl 	https://s3.eu-central-1.amazonaws.com/riskit-k8s/init-aws-kubernetes-master.sh | bash
 EOF
 
     tags = "${merge(map("Name", join("-", list(var.cluster_name, "master")), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
@@ -170,7 +170,7 @@ export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
 export CLUSTER_NAME=${var.cluster_name}
 export ADDONS="${join(" ", var.addons)}"
 
-curl 	https://s3.amazonaws.com/scholzj-kubernetes/cluster/init-aws-kubernetes-node.sh | bash
+curl 	https://s3.eu-central-1.amazonaws.com/riskit-k8s/init-aws-kubernetes-node.sh | bash
 EOF
 
   root_block_device {
