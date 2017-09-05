@@ -18,7 +18,13 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 <!-- /TOC -->
 
-## Prerequisites and dependencies
+## Updates
+
+* *22.8.2017:* Update Kubernetes and Kubeadm to 1.7.4
+* *30.8.2017:* New addon - Fluentd + ElasticSearch + Kibana
+* *2.9.2017:* Update Kubernetes and Kubeadm to 1.7.5
+
+## Prerequisites and dependencies
 
 * To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). The current setup with IAM roles integrated **needs at least Terraform 0.10.0**. Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
@@ -90,4 +96,4 @@ Custom addons can be added if needed. For every URL in the `addons` list, the in
 
 ## Tagging
 
-When you operate Kubernetes cluster, you will sooner or later create some additional resources like volumes or load balancers. These resources should be tagged with product, cost center etc. Install the [tagging lambda](https://github.deutsche-boerse.de/schojak/kubernetes-tagging-lambda) to automatically tag the resources you create.
+When you operate Kubernetes cluster, you will sooner or later create some additional resources like volumes or load balancers. These resources should be tagged with product, cost center etc. Install the [tagging lambda](https://github.deutsche-boerse.de/RiskIT/kubernetes-tagging-lambda) to automatically tag the resources you create.
