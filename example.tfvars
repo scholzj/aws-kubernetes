@@ -16,11 +16,11 @@ ssh_public_key = "~/.ssh/id_rsa.pub"
 # - Workers can be in multiple subnets
 # - Worker subnets can contain also the master subnet
 # - If you want to run workers in different subnet(s) than master you have to tag the subnets with kubernetes.io/cluster/{cluster_name}=shared
-master_subnet_id = "subnet-8a3517f8"
-worker_subnet_ids = [		
-    "subnet-8a3517f8",
-    "subnet-9b7853f7",
-    "subnet-8g9sdfv8"
+master_subnet_id = "subnet-ca9dcca2"
+worker_subnet_ids = [
+    "subnet-ca9dcca2",
+    "subnet-a4a639de",
+    "subnet-081e1b42"
 ]
 
 # Number of worker nodes
@@ -33,11 +33,35 @@ hosted_zone_private = false
 
 # Tags
 tags = {
+  Product     = "Risk"
+  CostCenter  = "665050"
+  Creator     = "<user-name>"
+  Owner       = "<user-name>"
   Application = "AWS-Kubernetes"
 }
 
 # Tags in a different format for Auto Scaling Group
 tags2 = [
+  {
+    key                 = "Owner"
+    value               = "<user-name>"
+    propagate_at_launch = true
+  },
+  {
+    key                 = "Product"
+    value               = "Risk"
+    propagate_at_launch = true
+  },
+  {
+    key                 = "CostCenter"
+    value               = "665050"
+    propagate_at_launch = true
+  },
+  {
+    key                 = "Creator"
+    value               = "<user-name>"
+    propagate_at_launch = true
+  },
   {
     key                 = "Application"
     value               = "AWS-Kubernetes"
