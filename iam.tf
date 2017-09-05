@@ -3,22 +3,22 @@
 #####
 
 data "template_file" "master_policy_json" {
-  template = "${file("${path.module}/template/master-policy.json.tpl")}"
+    template = "${file("${path.module}/template/master-policy.json.tpl")}"
 
-  vars {}
+    vars {}
 }
 
 resource "aws_iam_policy" "master_role_policy" {
-  name        = "${var.dbg_naming_prefix}${var.cluster_name}-master"
-  path        = "/"
-  description = "Policy for role ${var.dbg_naming_prefix}${var.cluster_name}-master"
-  policy      = "${data.template_file.master_policy_json.rendered}"
+    name        = "${var.dbg_naming_prefix}${var.cluster_name}-master"
+    path        = "/"
+    description = "Policy for role ${var.dbg_naming_prefix}${var.cluster_name}-master"
+    policy      = "${data.template_file.master_policy_json.rendered}"
 }
 
 resource "aws_iam_role" "master_role" {
-  name = "${var.dbg_naming_prefix}${var.cluster_name}-master"
-  force_detach_policies = true
-  assume_role_policy = <<EOF
+    name                  = "${var.dbg_naming_prefix}${var.cluster_name}-master"
+    force_detach_policies = true
+    assume_role_policy    = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -36,14 +36,14 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "master-policy-attach" {
-  name       = "${var.dbg_naming_prefix}${var.cluster_name}-master-attachment"
-  roles      = ["${aws_iam_role.master_role.name}"]
-  policy_arn = "${aws_iam_policy.master_role_policy.arn}"
+    name       = "${var.dbg_naming_prefix}${var.cluster_name}-master-attachment"
+    roles      = [ "${aws_iam_role.master_role.name}" ]
+    policy_arn = "${aws_iam_policy.master_role_policy.arn}"
 }
 
 resource "aws_iam_instance_profile" "master_instance_profile" {
-  name  = "${var.dbg_naming_prefix}${var.cluster_name}-master"
-  role = "${aws_iam_role.master_role.name}"
+    name = "${var.dbg_naming_prefix}${var.cluster_name}-master"
+    role = "${aws_iam_role.master_role.name}"
 }
 
 #####
@@ -51,22 +51,22 @@ resource "aws_iam_instance_profile" "master_instance_profile" {
 #####
 
 data "template_file" "node_policy_json" {
-  template = "${file("${path.module}/template/node-policy.json.tpl")}"
+    template = "${file("${path.module}/template/node-policy.json.tpl")}"
 
-  vars {}
+    vars {}
 }
 
 resource "aws_iam_policy" "node_role_policy" {
-  name        = "${var.dbg_naming_prefix}${var.cluster_name}-node"
-  path        = "/"
-  description = "Policy for role ${var.dbg_naming_prefix}${var.cluster_name}-node"
-  policy      = "${data.template_file.node_policy_json.rendered}"
+    name        = "${var.dbg_naming_prefix}${var.cluster_name}-node"
+    path        = "/"
+    description = "Policy for role ${var.dbg_naming_prefix}${var.cluster_name}-node"
+    policy      = "${data.template_file.node_policy_json.rendered}"
 }
 
 resource "aws_iam_role" "node_role" {
-  name = "${var.dbg_naming_prefix}${var.cluster_name}-node"
-  force_detach_policies = true
-  assume_role_policy = <<EOF
+    name                  = "${var.dbg_naming_prefix}${var.cluster_name}-node"
+    force_detach_policies = true
+    assume_role_policy    = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -84,12 +84,12 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "node-policy-attach" {
-  name       = "${var.dbg_naming_prefix}${var.cluster_name}-node-attachment"
-  roles      = ["${aws_iam_role.node_role.name}"]
-  policy_arn = "${aws_iam_policy.node_role_policy.arn}"
+    name       = "${var.dbg_naming_prefix}${var.cluster_name}-node-attachment"
+    roles      = [ "${aws_iam_role.node_role.name}" ]
+    policy_arn = "${aws_iam_policy.node_role_policy.arn}"
 }
 
 resource "aws_iam_instance_profile" "node_instance_profile" {
-  name  = "${var.dbg_naming_prefix}${var.cluster_name}-node"
-  role = "${aws_iam_role.node_role.name}"
+    name = "${var.dbg_naming_prefix}${var.cluster_name}-node"
+    role = "${aws_iam_role.node_role.name}"
 }
