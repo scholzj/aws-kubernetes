@@ -13,7 +13,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
     - [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
     - [Deleting AWS Kubernetes cluster](#deleting-aws-kubernetes-cluster)
     - [Addons](#addons)
-    - [Custom addons](#custom-addons)
+    - [Adding new addons](#adding-new-addons)
     - [Tagging](#tagging)
 
 <!-- /TOC -->
@@ -45,7 +45,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `max_worker_count` | Maximal number of worker nodes | `6` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |
-| `addons` | List of addons which should be installed | `[ "https://..." ]` |
+| `addons` | List of addons YAML files which should be installed. These files have to be placed into `scripts/addons` directory | `[ "<your-addon-name>.yaml" ]` |
 | `tags` | Tags which should be applied to all resources | see *example.tfvars* file |
 | `tags2` | Tags in second format which should be applied to AS groups | see *example.tfvars* file |
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
@@ -90,9 +90,25 @@ Currently, following addons are supported:
 
 The addons will be installed automatically based on the Terraform variables. 
 
-## Custom addons
+## Adding new addons
 
-Custom addons can be added if needed. For every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
+Custom addons can be added if needed:
+ 1) The addon YAML file has to be placed into `scripts/addons` directory.
+ 1) In the `scripts-2-s3.tf`:
+    - a new `aws_s3_bucket_object` resource entry has to be added:
+    ```hcl-terraform
+    resource "aws_s3_bucket_object" "<your-addon-name>" {
+        bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
+        key    = "addons/<your-addon-name>.yaml"
+        source = "scripts/addons/<your-addon-name>.yaml"
+        etag   = "${md5(file("scripts/addons/<your-addon-name>.yaml"))}"
+        acl    = "public-read"
+    }
+    ```
+    - the entry has to be added to the list of `depends_on` in the `init-aws-kubernetes-master` resource.
+ 1) Add the file name into `addons` variable. 
+
+For every file in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon file>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
 
 ## Tagging
 
