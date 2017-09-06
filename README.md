@@ -9,7 +9,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 - [AWS Kubernetes](#aws-kubernetes)
     - [Prerequisites and dependencies](#prerequisites-and-dependencies)
     - [Configuration](#configuration)
-        - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
+        - [Using multiple / different subnets for workers nodes](#using-multiple--different-subnets-for-workers-nodes)
     - [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
     - [Deleting AWS Kubernetes cluster](#deleting-aws-kubernetes-cluster)
     - [Addons](#addons)
@@ -51,7 +51,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
 | `api_access_cidr` | List of CIDRs from which API access is allowed | `[ "0.0.0.0/0" ]` |
 
-### Using multiple / different subnets for workers nodea
+### Using multiple / different subnets for workers nodes
 
 In order to run workers in additional / different subnet(s) than master you have to tag the subnets with `kubernetes.io/cluster/{cluster_name}=shared`. For example `kubernetes.io/cluster/my-aws-kubernetes=shared`. During the cluster setup, the bootstrapping script will automatically add these tags to the subnets specified in `worker_subnet_ids`.
 
