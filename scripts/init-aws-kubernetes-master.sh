@@ -93,7 +93,7 @@ rm /tmp/kubeadm.yaml
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
 # Install calico
-kubectl apply -f https://s3.eu-central-1.amazonaws.com/riskit-k8s/calico.yaml
+curl -L ${CALICO_YAML_URL} | kubectl apply -f -
 
 # Allow the user to administer the cluster
 kubectl create clusterrolebinding admin-cluster-binding --clusterrole=cluster-admin --user=admin
@@ -110,7 +110,5 @@ chmod 0600 $KUBECONFIG_OUTPUT
 # Load addons
 for ADDON in $ADDONS
 do
-  curl $ADDON | envsubst > /tmp/addon.yaml
-  kubectl apply -f /tmp/addon.yaml
-  rm /tmp/addon.yaml
+  curl -L $ADDON | envsubst | kubectl apply -f -
 done

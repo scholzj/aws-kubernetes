@@ -71,21 +71,21 @@ tags2                = [
 
 # Kubernetes Addons
 # Supported addons:
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/storage-class.yaml
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/heapster.yaml
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/dashboard.yaml
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/external-dns.yaml
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/ingress.yaml
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/autoscaler.yaml
-# https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/fluentd-es-kibana-logging.yaml
+#     storage-class.yaml
+#     heapster.yaml
+#     dashboard.yaml
+#     external-dns.yaml
+#     ingress.yaml
+#     autoscaler.yaml
+#     fluentd-es-kibana-logging.yaml
 
 
 addons               = [
-    "https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/storage-class.yaml",
-    "https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/heapster.yaml",
-    "https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/dashboard.yaml",
-    "https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/external-dns.yaml",
-    "https://s3.eu-central-1.amazonaws.com/riskit-k8s/addons/autoscaler.yaml"
+    "storage-class.yaml",
+    "heapster.yaml",
+    "dashboard.yaml",
+    "external-dns.yaml",
+    "autoscaler.yaml"
 ]
 
 # List of CIDRs from which SSH access is allowed

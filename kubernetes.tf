@@ -122,9 +122,10 @@ export ASG_MIN_NODES="${var.min_worker_count}"
 export ASG_MAX_NODES="${var.max_worker_count}"
 export AWS_REGION=${var.aws_region}
 export AWS_SUBNETS="${join(" ", var.worker_subnet_ids)}"
-export ADDONS="${join(" ", var.addons)}"
+export ADDONS="${join(" ", formatlist("https://%s/addons/%s", aws_s3_bucket.scripts_bucket.bucket_domain_name, var.addons))}"
+export CALICO_YAML_URL="https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.calico_yaml.key}"
 
-curl 	https://s3.eu-central-1.amazonaws.com/riskit-k8s/init-aws-kubernetes-master.sh | bash
+curl -L https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.init-aws-kubernetes-master.key} | bash
 EOF
 
     tags                        = "${merge(map("Name", join("-", list(var.cluster_name, "master")), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
@@ -135,7 +136,11 @@ EOF
         delete_on_termination = true
     }
 
-    depends_on                  = [ "data.template_file.kubeadm_token" ]
+    depends_on                  = [
+        "data.template_file.kubeadm_token",
+        "aws_s3_bucket_object.init-aws-kubernetes-master",
+        "aws_s3_bucket_object.calico_yaml"
+    ]
 
     lifecycle {
         ignore_changes = [
@@ -167,11 +172,11 @@ resource "aws_launch_configuration" "nodes" {
 #!/bin/bash
 export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
 export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
-export CLUSTER_NAME=${var.cluster_name}
-export ADDONS="${join(" ", var.addons)}"
 
-curl 	https://s3.eu-central-1.amazonaws.com/riskit-k8s/init-aws-kubernetes-node.sh | bash
+curl -L https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.init-aws-kubernetes-node.key} | bash
 EOF
+
+    depends_on                  = [ "aws_s3_bucket_object.init-aws-kubernetes-node" ]
 
     root_block_device {
         volume_type           = "gp2"
