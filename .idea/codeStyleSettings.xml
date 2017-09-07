@@ -2,8 +2,19 @@
 <project version="4">
   <component name="ProjectCodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
-      <value />
+      <value>
+        <HCL-Terraform>
+          <option name="PROPERTY_ALIGNMENT" value="2" />
+          <option name="ARRAY_WRAPPING" value="1" />
+        </HCL-Terraform>
+        <codeStyleSettings language="HCL-Terraform">
+          <option name="SPACE_WITHIN_BRACKETS" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="4" />
+          </indentOptions>
+        </codeStyleSettings>
+      </value>
     </option>
-    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default" />
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
