@@ -14,5 +14,5 @@ variable "tags" {
 
 variable "dbg_naming_prefix" {
     description = "Prefix of the IAM role name"
-    default = "DBG-DEV-"
+    default     = "DBG-DEV-"
 }
