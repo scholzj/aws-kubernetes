@@ -3,3 +3,6 @@
 *.tfstate.backup
 *.tfstate.*.backup
 .terraform
+
+#IntelliJ IDEA files
+.idea/workspace.xml
