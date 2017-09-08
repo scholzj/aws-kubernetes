@@ -1,11 +1,13 @@
-aws_region    = "eu-central-1"
+aws_region   = "eu-central-1"
 
 # Used for naming related resources
-cluster_name  = "my-minikube"
+cluster_name = "aws-kubernetes"
 
 # Tags
-tags = {
-  Product     = "XXX"
-  CostCenter  = "1234"
-  Creator     = "ab123"
+tags         = {
+    Product     = "Risk"
+    CostCenter  = "665050"
+    Creator     = "<user-name>"
+    Owner       = "<user-name>"
+    Application = "AWS-Kubernetes"
 }
