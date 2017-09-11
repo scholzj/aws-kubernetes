@@ -21,7 +21,9 @@ if 'Name' not in setTags.keys():
 
 # Tag the resources ...
 def lambda_handler(event, context):
-    filter = [{'Name':'tag:kubernetes.io/cluster/' + cluster, 'Values':['owned']}]
+    kubeClusterTagKey = 'kubernetes.io/cluster/' + cluster
+    kubeClusterTagValue = 'owned'
+    filter = [{'Name':'tag:' + kubeClusterTagKey, 'Values':[kubeClusterTagValue]}]
 
     ec2 = boto3.resource('ec2', region_name=region)
 
@@ -135,7 +137,7 @@ def lambda_handler(event, context):
     asgs = autoscaling.describe_auto_scaling_groups(MaxRecords=100)
     for asg in asgs['AutoScalingGroups']:
         for tag in asg['Tags']:
-            if tag['Key'] == 'KubernetesCluster' and tag['Value'] == cluster:
+            if tag['Key'] == kubeClusterTagKey and tag['Value'] == kubeClusterTagValue:
                 newTags = prepare_new_tags(asg['Tags'])
 
                 if len(newTags) > 0:
@@ -153,7 +155,7 @@ def lambda_handler(event, context):
     for elb in elbs['LoadBalancerDescriptions']:
         tags = loadbalancing.describe_tags(LoadBalancerNames=[elb['LoadBalancerName']])
         for tag in tags['TagDescriptions'][0]['Tags']:
-            if tag['Key'] == 'KubernetesCluster' and tag['Value'] == cluster:
+            if tag['Key'] == kubeClusterTagKey and tag['Value'] == kubeClusterTagValue:
                 newTags = prepare_new_tags(tags['TagDescriptions'][0]['Tags'])
                 if len(newTags) > 0:
                     LOGGER.info("Adding tags to load balancer %s", elb['LoadBalancerName'])
