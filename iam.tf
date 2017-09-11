@@ -1,21 +1,21 @@
 #####
-# Create the policy document
+# Create tagging lambda role
 #####
 
-data "template_file" "policy_json" {
-    template = "${file("${path.module}/template/policy.json.tpl")}"
+data "template_file" "lambda_policy_json" {
+    template = "${file("${path.module}/template/lambda-policy.json.tpl")}"
 
     vars {}
 }
 
-resource "aws_iam_policy" "iam_role_policy" {
+resource "aws_iam_policy" "lambda_role_policy" {
     name        = "${var.dbg_naming_prefix}${var.cluster_name}-tagging-lambda"
     path        = "/"
     description = "Policy for role ${var.dbg_naming_prefix}${var.cluster_name}-tagging-lambda"
-    policy      = "${data.template_file.policy_json.rendered}"
+    policy      = "${data.template_file.lambda_policy_json.rendered}"
 }
 
-resource "aws_iam_role" "iam_role" {
+resource "aws_iam_role" "lambda_role" {
     name                  = "${var.dbg_naming_prefix}${var.cluster_name}-tagging-lambda"
     force_detach_policies = true
     assume_role_policy    = <<EOF
@@ -35,8 +35,8 @@ resource "aws_iam_role" "iam_role" {
 EOF
 }
 
-resource "aws_iam_policy_attachment" "policy-attach" {
+resource "aws_iam_policy_attachment" "lambda-policy-attach" {
     name       = "${var.dbg_naming_prefix}${var.cluster_name}-tagging-lambda"
-    roles      = [ "${aws_iam_role.iam_role.name}" ]
-    policy_arn = "${aws_iam_policy.iam_role_policy.arn}"
+    roles      = [ "${aws_iam_role.lambda_role.name}" ]
+    policy_arn = "${aws_iam_policy.lambda_role_policy.arn}"
 }
