@@ -110,6 +110,21 @@ Custom addons can be added if needed:
 
 For every file in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon file>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
 
-## Tagging
+# Kubernetes Tagging Lambda
 
-When you operate Kubernetes cluster, you will sooner or later create some additional resources like volumes or load balancers. These resources should be tagged with product, cost center etc. Install the [tagging lambda](https://github.deutsche-boerse.de/RiskIT/kubernetes-tagging-lambda) to automatically tag the resources you create.
+When you operate Kubernetes cluster, you will sooner or later create some additional resources like volumes or load balancers. These resources should be tagged with product, cost center etc. This repository contains installation of AWS Lambda function which will go through all your resources, identify them based on tag `KubernetesCluster` tag which should contain the name of your Kubernetes cluster. For every resource it find it will make sure that the required tags are attached.
+
+## Tagged resources
+
+* EC2 instances
+* Network interfaces
+* EBS Volumes
+* Security Groups
+* Internet Gateways (*not applicable in ProductDev*)
+* DHCP Option sets (*not applicable in ProductDev*)
+* Subnets (*not applicable in ProductDev*)
+* Route tables (*not applicable in ProductDev*)
+* VPCs (*not applicable in ProductDev*)
+* Network ACLs (*not applicable in ProductDev*)
+* Autoscaling Groups
+* Elastic Loadbalancers
