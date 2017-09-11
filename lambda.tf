@@ -48,7 +48,7 @@ resource "aws_lambda_function" "tagging" {
 
     filename      = "/tmp/tagging_lambda.zip"
     function_name = "${var.cluster_name}-tagging-lambda"
-    role          = "${aws_iam_role.iam_role.arn}"
+    role          = "${aws_iam_role.lambda_role.arn}"
     handler       = "tagging_lambda.lambda_handler"
     runtime       = "python2.7"
     timeout       = "60"
