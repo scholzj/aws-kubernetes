@@ -91,5 +91,5 @@ output "master_dns" {
 }
 
 output "copy_config" {
-    value = "To copy the kubectl config file, run: 'scp centos@${aws_route53_record.master.fqdn}:/home/centos/kubeconfig .'"
+    value = "To copy the kubectl config file, run: 'scp -i ${replace(var.ssh_public_key, ".pub", "")} centos@${aws_route53_record.master.fqdn}:/home/centos/kubeconfig .'"
 }
