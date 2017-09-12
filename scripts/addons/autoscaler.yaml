@@ -34,7 +34,7 @@ spec:
             - ./cluster-autoscaler
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
-            - --nodes=${ASG_MIN_NODES}:${ASG_MAX_NODES}:${ASG_NAME}
+            ${ASG_NODES}
             #- --scale-down-delay=10m
             #- --skip-nodes-with-system-pods=false
           env:

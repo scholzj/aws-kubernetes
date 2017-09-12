@@ -27,9 +27,16 @@ variable "master_instance_type" {
     default     = "t2.medium"
 }
 
-variable "worker_instance_type" {
-    description = "Type of instance for workers"
-    default     = "t2.medium"
+variable "worker_instances" {
+    description = "Types of instances for workers"
+    type        = "list"
+    default     = [
+        {
+            instance_type      = "t2.medium"
+            min_instance_count = 3
+            max_instance_count = 6
+        }
+    ]
 }
 
 variable "master_subnet_id" {
@@ -39,14 +46,6 @@ variable "master_subnet_id" {
 variable "worker_subnet_ids" {
     description = "The subnet-ids to be used for the worker instances"
     type        = "list"
-}
-
-variable "min_worker_count" {
-    description = "Minimal number of worker nodes"
-}
-
-variable "max_worker_count" {
-    description = "Maximal number of worker nodes"
 }
 
 variable "ssh_public_key" {

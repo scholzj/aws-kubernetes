@@ -6,7 +6,13 @@ cluster_name         = "aws-kubernetes"
 
 # Instance types for mster and worker nodes
 master_instance_type = "t2.medium"
-worker_instance_type = "t2.medium"
+worker_instances = [
+    {
+        instance_type      = "t2.medium"
+        min_instance_count = 3
+        max_instance_count = 6
+    }
+]
 
 # SSH key for the machines
 ssh_public_key       = "~/.ssh/id_rsa.pub"
@@ -22,10 +28,6 @@ worker_subnet_ids    = [
     "subnet-a4a639de",
     "subnet-081e1b42"
 ]
-
-# Number of worker nodes
-min_worker_count     = 3
-max_worker_count     = 6
 
 # DNS zone where the domain is placed
 hosted_zone          = "my-domain.com"
