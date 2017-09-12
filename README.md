@@ -37,12 +37,10 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `aws_region` | AWS region which should be used | `eu-central-1` |
 | `cluster_name` | Name of the Kubernetes cluster (also used to name different AWS resources) | `my-aws-kubernetes` |
 | `master_instance_type` | AWS EC2 instance type for master | `t2.medium` |
-| `worker_instance_type` | AWS EC2 instance type for worker | `t2.medium` |
+| `worker_instances` | AWS EC2 instance types for worker nodes. It is a list of objects with following format: `{ instance_type = "..." min_instance_count = ... max_instance_count = ... }`| `[ { instance_type = "t2.medium" min_instance_count = 3 max_instance_count = 6 } ]` |
 | `ssh_public_key` | SSH key to connect to the remote machine | `~/.ssh/id_rsa.pub` |
 | `master_subnet_id` | Subnet ID where master should run | `subnet-8d3407e5` |
 | `worker_subnet_ids` | List of subnet IDs where workers should run | `[ "subnet-8d3407e5" ]` |
-| `min_worker_count` | Minimal number of worker nodes | `3` |
-| `max_worker_count` | Maximal number of worker nodes | `6` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |
 | `addons` | List of addons YAML files which should be installed. These files have to be placed into `scripts/addons` directory | `[ "<your-addon-name>.yaml" ]` |
