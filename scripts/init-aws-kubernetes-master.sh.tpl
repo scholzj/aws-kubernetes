@@ -97,7 +97,7 @@ rm /tmp/kubeadm.yaml
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
 # Install calico
-curl -L ${calico_yaml_url} | kubectl apply -f -
+aws s3 cp ${calico_yaml_url} - | kubectl apply -f -
 
 # Allow the user to administer the cluster
 kubectl create clusterrolebinding admin-cluster-binding --clusterrole=cluster-admin --user=admin
@@ -114,7 +114,7 @@ chmod 0600 $$KUBECONFIG_OUTPUT
 # Load addons
 for ADDON in ${addons}
 do
-  curl -L $ADDON | envsubst | kubectl apply -f -
+  aws s3 cp $ADDON - | kubectl apply -f -
 done
 
 # Install Tiller (Helm)

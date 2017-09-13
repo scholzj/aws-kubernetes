@@ -10,7 +10,7 @@ resource "aws_security_group" "kubernetes-master" {
     vpc_id = "${data.aws_subnet.cluster_subnet.vpc_id}"
     name   = "${var.cluster_name}-master"
 
-    tags   = "${merge(map("Name", format("%v-master", var.cluster_name), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
+    tags   = "${local.master_tags}"
 }
 
 # Allow outgoing connectivity
@@ -63,7 +63,7 @@ resource "aws_security_group" "kubernetes-node" {
     vpc_id = "${data.aws_subnet.cluster_subnet.vpc_id}"
     name   = "${var.cluster_name}-node"
 
-    tags   = "${merge(map("Name", format("%v-node", var.cluster_name), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
+    tags   = "${local.node_tags}"
 }
 
 # Allow outgoing connectivity

@@ -21,10 +21,10 @@ resource "aws_instance" "master" {
 
     user_data                   = <<EOF
 #!/bin/bash
-curl -L https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.init-aws-kubernetes-master.key} | bash
+aws s3 cp ${local.init_master_url} - | bash
 EOF
 
-    tags                        = "${merge(map("Name", join("-", list(var.cluster_name, "master")), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
+    tags                        = "${local.master_tags}"
 
     root_block_device {
         volume_type           = "gp2"

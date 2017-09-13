@@ -18,7 +18,7 @@ resource "aws_launch_configuration" "nodes" {
 
     user_data                   = <<EOF
 #!/bin/bash
-curl -L https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.init-aws-kubernetes-node.key} | bash
+aws s3 cp ${local.init_node_url} - | bash
 EOF
 
     root_block_device {

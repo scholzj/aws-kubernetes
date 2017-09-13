@@ -4,10 +4,31 @@ resource "random_shuffle" "scripts_bucket" {
     result_count = 6
 }
 
-resource "aws_s3_bucket" "scripts_bucket" {
-    bucket = "${var.cluster_name}-scripts-${join("", random_shuffle.scripts_bucket.result)}"
+locals {
+    scripts_bucket_name = "${var.cluster_name}-scripts-${join("", random_shuffle.scripts_bucket.result)}"
+}
 
-    tags   = "${merge(map("Name", join("-", list(var.cluster_name, "master")), format("kubernetes.io/cluster/%v", var.cluster_name), "owned"), var.tags)}"
+
+data "template_file" "scripts_bucket_policy" {
+    template = "${file("${path.module}/template/scripts-bucket-policy.json.tpl")}"
+
+    vars {
+        bucket_name = "${local.scripts_bucket_name}"
+        node_role_arn = "${aws_iam_role.node_role.arn}"
+        master_role_arn = "${aws_iam_role.master_role.arn}"
+    }
+}
+
+resource "aws_s3_bucket" "scripts_bucket" {
+    bucket = "${local.scripts_bucket_name}"
+    policy = "${data.template_file.scripts_bucket_policy.rendered}"
+    acl    = "private"
+
+    tags   = "${local.cluster_tags}"
+}
+
+locals {
+    scripts_bucket_url = "s3://${aws_s3_bucket.scripts_bucket.bucket}"
 }
 
 ################
@@ -15,11 +36,17 @@ resource "aws_s3_bucket" "scripts_bucket" {
 ################
 
 resource "aws_s3_bucket_object" "calico_yaml" {
-    bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key    = "calico.yaml"
-    source = "scripts/calico.yaml"
-    etag   = "${md5(file("scripts/calico.yaml"))}"
-    acl    = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "calico.yaml"
+    source                 = "scripts/calico.yaml"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
+}
+
+locals {
+    calico_yaml_url = "${local.scripts_bucket_url}/${aws_s3_bucket_object.calico_yaml.key}"
 }
 
 ################
@@ -36,11 +63,17 @@ data "template_file" "init-aws-kubernetes-node" {
 }
 
 resource "aws_s3_bucket_object" "init-aws-kubernetes-node" {
-    bucket  = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key     = "init-aws-kubernetes-node.sh"
-    content = "${data.template_file.init-aws-kubernetes-node.rendered}"
-    etag    = "${md5(data.template_file.init-aws-kubernetes-node.rendered)}"
-    acl     = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "init-aws-kubernetes-node.sh"
+    content                = "${data.template_file.init-aws-kubernetes-node.rendered}"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
+}
+
+locals {
+    init_node_url = "${local.scripts_bucket_url}/${aws_s3_bucket_object.init-aws-kubernetes-node.key}"
 }
 
 ################
@@ -66,11 +99,13 @@ data "template_file" "autoscaler" {
 }
 
 resource "aws_s3_bucket_object" "autoscaler" {
-    bucket  = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key     = "addons/autoscaler.yaml"
-    content = "${data.template_file.autoscaler.rendered}"
-    etag    = "${md5(data.template_file.autoscaler.rendered)}"
-    acl     = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/autoscaler.yaml"
+    content                = "${data.template_file.autoscaler.rendered}"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -78,11 +113,13 @@ resource "aws_s3_bucket_object" "autoscaler" {
 ################
 
 resource "aws_s3_bucket_object" "dashboard" {
-    bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key    = "addons/dashboard.yaml"
-    source = "scripts/addons/dashboard.yaml"
-    etag   = "${md5(file("scripts/addons/dashboard.yaml"))}"
-    acl    = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/dashboard.yaml"
+    source                 = "scripts/addons/dashboard.yaml"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -98,11 +135,13 @@ data "template_file" "external-dns" {
 }
 
 resource "aws_s3_bucket_object" "external-dns" {
-    bucket  = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key     = "addons/external-dns.yaml"
-    content = "${data.template_file.external-dns.rendered}"
-    etag    = "${md5(data.template_file.external-dns.rendered)}"
-    acl     = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/external-dns.yaml"
+    content                = "${data.template_file.external-dns.rendered}"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -110,11 +149,13 @@ resource "aws_s3_bucket_object" "external-dns" {
 ################
 
 resource "aws_s3_bucket_object" "fluentd-es-kibana-logging" {
-    bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key    = "addons/fluentd-es-kibana-logging.yaml"
-    source = "scripts/addons/fluentd-es-kibana-logging.yaml"
-    etag   = "${md5(file("scripts/addons/fluentd-es-kibana-logging.yaml"))}"
-    acl    = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/fluentd-es-kibana-logging.yaml"
+    source                 = "scripts/addons/fluentd-es-kibana-logging.yaml"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -122,11 +163,13 @@ resource "aws_s3_bucket_object" "fluentd-es-kibana-logging" {
 ################
 
 resource "aws_s3_bucket_object" "heapster" {
-    bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key    = "addons/heapster.yaml"
-    source = "scripts/addons/heapster.yaml"
-    etag   = "${md5(file("scripts/addons/heapster.yaml"))}"
-    acl    = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/heapster.yaml"
+    source                 = "scripts/addons/heapster.yaml"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -134,11 +177,13 @@ resource "aws_s3_bucket_object" "heapster" {
 ################
 
 resource "aws_s3_bucket_object" "ingress" {
-    bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key    = "addons/ingress.yaml"
-    source = "scripts/addons/ingress.yaml"
-    etag   = "${md5(file("scripts/addons/ingress.yaml"))}"
-    acl    = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/ingress.yaml"
+    source                 = "scripts/addons/ingress.yaml"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -146,11 +191,13 @@ resource "aws_s3_bucket_object" "ingress" {
 ################
 
 resource "aws_s3_bucket_object" "storage-class" {
-    bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key    = "addons/storage-class.yaml"
-    source = "scripts/addons/storage-class.yaml"
-    etag   = "${md5(file("scripts/addons/storage-class.yaml"))}"
-    acl    = "public-read"
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "addons/storage-class.yaml"
+    source                 = "scripts/addons/storage-class.yaml"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
 }
 
 ################
@@ -161,10 +208,10 @@ data "template_file" "init-aws-kubernetes-master" {
     template = "${file("${path.module}/scripts/init-aws-kubernetes-master.sh.tpl")}"
 
     vars {
-        addons          = "${join(" ", formatlist("https://%s/addons/%s", aws_s3_bucket.scripts_bucket.bucket_domain_name, var.addons))}"
+        addons          = "${join(" ", formatlist("%s/addons/%s", local.scripts_bucket_url, var.addons))}"
         aws_region      = "${var.aws_region}"
         aws_subnets     = "${join(" ", var.worker_subnet_ids)}"
-        calico_yaml_url = "https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.calico_yaml.key}"
+        calico_yaml_url = "${local.calico_yaml_url}"
         cluster_name    = "${var.cluster_name}"
         dns_name        = "${var.cluster_name}.${var.hosted_zone}"
         kubeadm_token   = "${data.template_file.kubeadm_token.rendered}"
@@ -172,12 +219,15 @@ data "template_file" "init-aws-kubernetes-master" {
 }
 
 resource "aws_s3_bucket_object" "init-aws-kubernetes-master" {
-    bucket     = "${aws_s3_bucket.scripts_bucket.bucket}"
-    key        = "init-aws-kubernetes-master.sh"
-    content    = "${data.template_file.init-aws-kubernetes-master.rendered}"
-    etag       = "${md5(data.template_file.init-aws-kubernetes-master.rendered)}"
-    acl        = "public-read"
-    depends_on = [
+    bucket                 = "${aws_s3_bucket.scripts_bucket.bucket}"
+    key                    = "init-aws-kubernetes-master.sh"
+    content                = "${data.template_file.init-aws-kubernetes-master.rendered}"
+
+    acl                    = "private"
+    server_side_encryption = "aws:kms"
+    tags                   = "${local.cluster_tags}"
+
+    depends_on             = [
         "aws_s3_bucket_object.autoscaler",
         "aws_s3_bucket_object.dashboard",
         "aws_s3_bucket_object.external-dns",
@@ -187,4 +237,8 @@ resource "aws_s3_bucket_object" "init-aws-kubernetes-master" {
         "aws_s3_bucket_object.init-aws-kubernetes-node",
         "aws_s3_bucket_object.storage-class"
     ]
+}
+
+locals {
+    init_master_url = "${local.scripts_bucket_url}/${aws_s3_bucket_object.init-aws-kubernetes-master.key}"
 }
