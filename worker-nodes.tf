@@ -18,13 +18,8 @@ resource "aws_launch_configuration" "nodes" {
 
     user_data                   = <<EOF
 #!/bin/bash
-export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
-export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
-
 curl -L https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.init-aws-kubernetes-node.key} | bash
 EOF
-
-    depends_on                  = [ "aws_s3_bucket_object.init-aws-kubernetes-node" ]
 
     root_block_device {
         volume_type           = "gp2"

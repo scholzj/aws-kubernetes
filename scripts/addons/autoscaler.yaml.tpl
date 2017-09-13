@@ -34,12 +34,12 @@ spec:
             - ./cluster-autoscaler
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
-            ${ASG_NODES}
+            ${asg_nodes}
             #- --scale-down-delay=10m
             #- --skip-nodes-with-system-pods=false
           env:
             - name: AWS_REGION
-              value: ${AWS_REGION}
+              value: ${aws_region}
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt

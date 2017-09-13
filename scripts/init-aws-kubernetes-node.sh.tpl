@@ -16,7 +16,7 @@ set -o nounset
 hostname $(hostname -f)
 
 # Make DNS lowercase
-DNS_NAME=$(echo "${DNS_NAME}" | tr 'A-Z' 'a-z')
+export DNS_NAME=$(echo "${dns_name}" | tr 'A-Z' 'a-z')
 
 # Install docker
 yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -36,7 +36,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
         https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
 setenforce 0
-yum install -y kubelet-${KUBERNETES_VERSION} kubeadm-${KUBERNETES_VERSION} kubernetes-cni
+yum install -y kubelet-$${KUBERNETES_VERSION} kubeadm-$${KUBERNETES_VERSION} kubernetes-cni
 
 # Fix kubelet configuration
 sed -i 's/--cgroup-driver=systemd/--cgroup-driver=cgroupfs/g' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
@@ -60,4 +60,4 @@ if cat /etc/*release | grep ^NAME= | grep CentOS ; then
 fi
 
 kubeadm reset
-kubeadm join --token ${KUBEADM_TOKEN} ${DNS_NAME}:6443
+kubeadm join --token ${kubeadm_token} $${DNS_NAME}:6443

@@ -74,7 +74,7 @@ spec:
         - --source=ingress
         - --provider=aws
         - --registry=txt
-        - --txt-owner-id=${CLUSTER_NAME}
+        - --txt-owner-id=${cluster_name}
         #- --domain-filter={{ dns_zone }}. # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
         #- --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
       nodeSelector:

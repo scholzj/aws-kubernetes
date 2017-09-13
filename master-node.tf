@@ -1,12 +1,3 @@
-# Worker nodes array into cluster-autoscaler formated strings.
-resource "null_resource" "asg_node" {
-    count = "${length(var.worker_instances)}"
-
-    triggers {
-        asg_node = "${lookup(var.worker_instances[count.index], "min_instance_count")}:${lookup(var.worker_instances[count.index], "max_instance_count")}:${var.cluster_name}-${lookup(var.worker_instances[count.index], "instance_type")}-nodes"
-    }
-}
-
 #####
 # Master - EC2 instance
 #####
@@ -30,15 +21,6 @@ resource "aws_instance" "master" {
 
     user_data                   = <<EOF
 #!/bin/bash
-export KUBEADM_TOKEN=${data.template_file.kubeadm_token.rendered}
-export DNS_NAME=${var.cluster_name}.${var.hosted_zone}
-export CLUSTER_NAME=${var.cluster_name}
-export ASG_NODES="- --nodes=${join(" --nodes=", null_resource.asg_node.*.triggers.asg_node)}"
-export AWS_REGION=${var.aws_region}
-export AWS_SUBNETS="${join(" ", var.worker_subnet_ids)}"
-export ADDONS="${join(" ", formatlist("https://%s/addons/%s", aws_s3_bucket.scripts_bucket.bucket_domain_name, var.addons))}"
-export CALICO_YAML_URL="https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.calico_yaml.key}"
-
 curl -L https://${aws_s3_bucket.scripts_bucket.bucket_domain_name}/${aws_s3_bucket_object.init-aws-kubernetes-master.key} | bash
 EOF
 
@@ -49,12 +31,6 @@ EOF
         volume_size           = "50"
         delete_on_termination = true
     }
-
-    depends_on                  = [
-        "data.template_file.kubeadm_token",
-        "aws_s3_bucket_object.init-aws-kubernetes-master",
-        "aws_s3_bucket_object.calico_yaml"
-    ]
 
     lifecycle {
         ignore_changes = [
