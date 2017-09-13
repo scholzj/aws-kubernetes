@@ -112,3 +112,10 @@ for ADDON in $ADDONS
 do
   curl -L $ADDON | envsubst | kubectl apply -f -
 done
+
+# Install Tiller (Helm)
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller
