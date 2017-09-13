@@ -45,6 +45,16 @@ resource "aws_security_group_rule" "allow_api_from_cidr-master" {
     security_group_id = "${aws_security_group.kubernetes-master.id}"
 }
 
+# From master to master
+resource "aws_security_group_rule" "allow_cluster_crosstalk-master2master" {
+    type                     = "ingress"
+    from_port                = 0
+    to_port                  = 0
+    protocol                 = "-1"
+    source_security_group_id = "${aws_security_group.kubernetes-master.id}"
+    security_group_id        = "${aws_security_group.kubernetes-master.id}"
+}
+
 #####
 # Security Group - Node
 #####
@@ -75,6 +85,16 @@ resource "aws_security_group_rule" "allow_ssh_from_cidr-node" {
     protocol          = "tcp"
     cidr_blocks       = [ "${var.ssh_access_cidr[count.index]}" ]
     security_group_id = "${aws_security_group.kubernetes-node.id}"
+}
+
+# From node to node
+resource "aws_security_group_rule" "allow_cluster_crosstalk-node2node" {
+    type                     = "ingress"
+    from_port                = 0
+    to_port                  = 0
+    protocol                 = "-1"
+    source_security_group_id = "${aws_security_group.kubernetes-node.id}"
+    security_group_id        = "${aws_security_group.kubernetes-node.id}"
 }
 
 ##########
