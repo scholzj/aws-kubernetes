@@ -7,106 +7,26 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: ingress
+  name: system:ingress
 rules:
 - apiGroups:
   - ""
-  resources:
-  - configmaps
-  - secrets
-  - services
-  - endpoints
-  - ingresses
-  - nodes
-  - pods
-  verbs:
-  - list
-  - watch
+  resources: ["configmaps","secrets","endpoints","events","services"]
+  verbs: ["list","watch","create","update","delete","get"]
 - apiGroups:
+  - ""
   - "extensions"
-  resources:
-  - ingresses
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  - services
-  verbs:
-  - create
-  - list
-  - update
-  - get
-  - patch
-- apiGroups:
-  - "extensions"
-  resources:
-  - ingresses/status
-  - ingresses
-  verbs:
-  - update
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: Role
-metadata:
-  name: ingress-ns
-  namespace: kube-system
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  verbs:
-  - list
-- apiGroups:
-  - ""
-  resources:
-  - services
-  verbs:
-  - get
-- apiGroups:
-  - ""
-  resources:
-  - endpoints
-  verbs:
-  - get
-  - create
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  resourceNames:
-  - ingress-nginx
-  verbs:
-  - update
-  - get
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: RoleBinding
-metadata:
-  name: ingress-ns-binding
-  namespace: kube-system
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: ingress-ns
-subjects:
-  - kind: ServiceAccount
-    name: ingress
-    namespace: kube-system
+  resources: ["services","nodes","ingresses","pods","ingresses/status"]
+  verbs: ["list","watch","create","update","delete","get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: ingress-binding
+  name: ingress
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: ingress
+  name: system:ingress
 subjects:
   - kind: ServiceAccount
     name: ingress
@@ -162,7 +82,7 @@ spec:
       terminationGracePeriodSeconds: 60
       serviceAccountName: ingress
       containers:
-      - image: gcr.io/google_containers/nginx-ingress-controller:0.9.0-beta.3
+      - image: gcr.io/google_containers/nginx-ingress-controller:0.9.0-beta.13
         name: ingress-nginx
         imagePullPolicy: Always
         ports:

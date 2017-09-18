@@ -23,6 +23,11 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 * *22.8.2017:* Update Kubernetes and Kubeadm to 1.7.4
 * *30.8.2017:* New addon - Fluentd + ElasticSearch + Kibana
 * *2.9.2017:* Update Kubernetes and Kubeadm to 1.7.5
+* *18.9.2017:* Updated addons:
+  - ingress -> 0.9.0-beta.13
+  - heapster -> v1.4.2
+  - external-dns -> v0.4.4
+  - cluster-autoscaler -> v0.6.2
 
 ## Prerequisites and dependencies
 
