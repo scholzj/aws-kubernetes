@@ -2,6 +2,26 @@
 # Nodes
 #####
 
+data "template_file" "init-aws-kubernetes-node" {
+    template = "${file("${path.module}/scripts/init-aws-kubernetes-node.sh.tpl")}"
+
+    vars {
+        kubeadm_token = "${data.template_file.kubeadm_token.rendered}"
+        dns_name      = "${var.cluster_name}.${var.hosted_zone}"
+    }
+}
+
+data "template_cloudinit_config" "cloud_init_worker" {
+    gzip          = true
+    base64_encode = true
+
+    part {
+        filename     = "init-aws-kubernetes-node.sh"
+        content_type = "text/x-shellscript"
+        content      = "${data.template_file.init-aws-kubernetes-node.rendered}"
+    }
+}
+
 resource "aws_launch_configuration" "nodes" {
     count                       = "${length(var.worker_instances)}"
     name                        = "${var.cluster_name}-${lookup(var.worker_instances[count.index], "instance_type")}-nodes"
@@ -15,11 +35,7 @@ resource "aws_launch_configuration" "nodes" {
     ]
 
     associate_public_ip_address = false
-
-    user_data                   = <<EOF
-#!/bin/bash
-aws s3 cp ${local.init_node_url} - | bash
-EOF
+    user_data                   = "${data.template_cloudinit_config.cloud_init_worker.rendered}"
 
     root_block_device {
         volume_type           = "gp2"

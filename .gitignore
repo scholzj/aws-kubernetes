@@ -1,11 +1,14 @@
 # Terraform state files
+addons/cluster-autoscaler/default-values.yaml
+addons/external-dns/default-values.yaml
 *.tfstate
 *.tfstate.backup
 *.tfstate.*.backup
 *.tfstate.lock.info
-schojak.tfvars
-wg379.tfvars
-.terraform
+*.tfvars
+!example.tfvars
+.terraform/
+.tmp/
 
 #IntelliJ IDEA files
 .idea/workspace.xml

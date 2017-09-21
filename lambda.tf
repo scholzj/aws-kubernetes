@@ -1,15 +1,11 @@
 #####
-# Creates the tagging lambda
-#####
-
-#####
-# Lambda Function
+# Creates the tagging lambda function
 #####
 
 # Generate ZIP archive with Lambda
 
 data "template_file" "lambda" {
-    template = "${file("${path.module}/template/tagging_lambda.py")}"
+    template = "${file("${path.module}/scripts/tagging_lambda.py.tpl")}"
 
     vars {
         aws_region   = "${var.aws_region}"
@@ -19,26 +15,19 @@ data "template_file" "lambda" {
     }
 }
 
-resource "null_resource" "zip_lambda" {
-    triggers {
-        template_rendered = "${ data.template_file.lambda.rendered }"
-    }
-
-    provisioner "local-exec" {
-        command = "cat << EOF > /tmp/tagging_lambda.py\n${ data.template_file.lambda.rendered }\nEOF"
-    }
-
-    provisioner "local-exec" {
-        command = "zip -j /tmp/tagging_lambda /tmp/tagging_lambda.py"
-    }
+data "archive_file" "zip_lambda" {
+    type                    = "zip"
+    source_content_filename = "tagging_lambda.py"
+    source_content          = "${ data.template_file.lambda.rendered }"
+    output_path             = "${path.module}/.tmp/tagging_lambda.zip"
 }
 
 # Create lambda
 
 resource "aws_lambda_function" "tagging" {
-    depends_on    = [ "null_resource.zip_lambda" ]
+    depends_on    = [ "data.archive_file.zip_lambda" ]
 
-    filename      = "/tmp/tagging_lambda.zip"
+    filename      = "${data.archive_file.zip_lambda.output_path}"
     function_name = "${var.cluster_name}-tagging-lambda"
     role          = "${aws_iam_role.lambda_role.arn}"
     handler       = "tagging_lambda.lambda_handler"

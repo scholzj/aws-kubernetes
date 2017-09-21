@@ -6,7 +6,7 @@ cluster_name         = "aws-kubernetes"
 
 # Instance types for mster and worker nodes
 master_instance_type = "t2.medium"
-worker_instances = [
+worker_instances     = [
     {
         instance_type      = "t2.medium"
         min_instance_count = 3
@@ -73,21 +73,21 @@ tags2                = [
 
 # Kubernetes Addons
 # Supported addons:
-#     storage-class.yaml
-#     heapster.yaml
-#     dashboard.yaml
-#     external-dns.yaml
-#     ingress.yaml
-#     autoscaler.yaml
-#     fluentd-es-kibana-logging.yaml
+#     heapster
+#     storage-class
+#     external-dns
+#     nginx-ingress
+#     cluster-autoscaler
+#     kubernetes-dashboard
+#     logging
 
 
 addons               = [
-    "storage-class.yaml",
-    "heapster.yaml",
-    "dashboard.yaml",
-    "external-dns.yaml",
-    "autoscaler.yaml"
+    "heapster",
+    "storage-class",
+    "external-dns",
+    "cluster-autoscaler",
+    "kubernetes-dashboard"
 ]
 
 # List of CIDRs from which SSH access is allowed

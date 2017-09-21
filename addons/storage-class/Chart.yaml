@@ -1,0 +1,11 @@
+apiVersion: v1
+description: A Helm chart for default AWS storage class
+name: storage-class
+version: 1.0.0
+keywords:
+  - storage
+  - class
+home: https://github.deutsche-boerse.de/RiskIT/aws-kubernetes/tree/master/scripts/addons/storage-class/templates
+maintainers:
+  - name: Risk-IT
+    email: RiskITBrowserStack@deutsche-boerse.com

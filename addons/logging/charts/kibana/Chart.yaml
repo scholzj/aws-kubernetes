@@ -1,0 +1,11 @@
+apiVersion: v1
+description: Kibana lets you visualize your Elasticsearch data
+name: kibana
+version: 1.0.0
+sources:
+  - https://www.elastic.co/products/kibana
+keywords:
+  - kibana
+maintainers:
+  - name: Risk-IT
+    email: RiskITBrowserStack@deutsche-boerse.com

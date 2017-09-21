@@ -1,0 +1,13 @@
+image:
+  tag: v1.4.2
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+resizer:
+  enabled: false
+rbac:
+  create: true

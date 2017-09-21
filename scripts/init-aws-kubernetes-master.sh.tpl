@@ -96,8 +96,8 @@ rm /tmp/kubeadm.yaml
 # Use the local kubectl config for further kubectl operations
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
-# Install calico
-aws s3 cp ${calico_yaml_url} - | kubectl apply -f -
+# Install weave
+kubectl apply -f /tmp/weave.yaml
 
 # Allow the user to administer the cluster
 kubectl create clusterrolebinding admin-cluster-binding --clusterrole=cluster-admin --user=admin
@@ -111,15 +111,19 @@ kubeadm alpha phase kubeconfig client-certs \
 chown centos:centos $$KUBECONFIG_OUTPUT
 chmod 0600 $$KUBECONFIG_OUTPUT
 
-# Load addons
-for ADDON in ${addons}
-do
-  aws s3 cp $ADDON - | kubectl apply -f -
-done
-
 # Install Tiller (Helm)
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 helm init --service-account tiller
+# Wait for tiller
+kubectl rollout status -w deployment/tiller-deploy --namespace=kube-system
+
+# Download and install addons
+aws s3 cp ${addons_zip_url} /tmp/ && unzip /tmp/addons.zip -d /tmp/addons && rm /tmp/addons.zip
+
+for ADDON in ${addons}
+do
+  helm install /tmp/addons/$ADDON -f /tmp/addons/$ADDON/default-values.yaml --namespace kube-system --wait --timeout 600
+done

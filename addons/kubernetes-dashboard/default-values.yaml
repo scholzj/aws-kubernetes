@@ -1,0 +1,10 @@
+imageTag: v1.6.3
+resources:
+  limits:
+    cpu: 100m
+    memory: 50Mi
+  requests:
+    cpu: 100m
+    memory: 50Mi
+rbac:
+  create: true

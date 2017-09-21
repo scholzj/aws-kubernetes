@@ -3,7 +3,7 @@
 #####
 
 data "template_file" "master_policy_json" {
-    template = "${file("${path.module}/template/master-policy.json.tpl")}"
+    template = "${file("${path.module}/policy/master-policy.json.tpl")}"
 
     vars {}
 }
@@ -51,7 +51,7 @@ resource "aws_iam_instance_profile" "master_instance_profile" {
 #####
 
 data "template_file" "node_policy_json" {
-    template = "${file("${path.module}/template/node-policy.json.tpl")}"
+    template = "${file("${path.module}/policy/node-policy.json.tpl")}"
 
     vars {}
 }
@@ -99,7 +99,7 @@ resource "aws_iam_instance_profile" "node_instance_profile" {
 #####
 
 data "template_file" "lambda_policy_json" {
-    template = "${file("${path.module}/template/lambda-policy.json.tpl")}"
+    template = "${file("${path.module}/policy/lambda-policy.json.tpl")}"
 
     vars {}
 }

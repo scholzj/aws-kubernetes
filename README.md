@@ -28,10 +28,12 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
   - heapster -> v1.4.2
   - external-dns -> v0.4.4
   - cluster-autoscaler -> v0.6.2
+* *20.9.2017:* Addons installed as Helm charts
+* *21.9.2017:* Replaced Calico by Weave.
 
 ## Prerequisites and dependencies
 
-* To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). The current setup with IAM roles integrated **needs at least Terraform 0.10.0**. Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
+* To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). The current setup with IAM roles integrated **needs at least Terraform 0.10.5**. Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
 ## Configuration
 
@@ -48,7 +50,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `worker_subnet_ids` | List of subnet IDs where workers should run | `[ "subnet-8d3407e5" ]` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |
-| `addons` | List of addons YAML files which should be installed. These files have to be placed into `scripts/addons` directory | `[ "<your-addon-name>.yaml" ]` |
+| `addons` | List of addons (Helm) chart names. They have to be placed in `addons` directory | `[ "<your-addon-name>" ]` |
 | `tags` | Tags which should be applied to all resources | see *example.tfvars* file |
 | `tags2` | Tags in second format which should be applied to AS groups | see *example.tfvars* file |
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
@@ -75,6 +77,10 @@ terraform apply --var-file example.tfvars
 
 To delete AWS Kubernetes cluster, 
 * Export AWS credentials into environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+* Uninstall all Kubernetes addons (they were installed as Helm packages)
+```
+helm delete $(helm ls -aq) --purge
+```
 * Destroy Terraform configuration:
 ```bash
 terraform destroy --var-file example.tfvars
@@ -82,7 +88,7 @@ terraform destroy --var-file example.tfvars
 
 ## Addons
 
-Currently, following addons are supported:
+Currently, following addons are supported as Helm packages:
 * Kubernetes dashboard
 * Heapster for resource monitoring
 * Storage class for automatic provisioning of persisitent volumes
@@ -96,22 +102,10 @@ The addons will be installed automatically based on the Terraform variables.
 ## Adding new addons
 
 Custom addons can be added if needed:
- 1) The addon YAML file has to be placed into `scripts/addons` directory.
- 1) In the `scripts-2-s3.tf`:
-    - a new `aws_s3_bucket_object` resource entry has to be added:
-    ```hcl-terraform
-    resource "aws_s3_bucket_object" "<your-addon-name>" {
-        bucket = "${aws_s3_bucket.scripts_bucket.bucket}"
-        key    = "addons/<your-addon-name>.yaml"
-        source = "scripts/addons/<your-addon-name>.yaml"
-        etag   = "${md5(file("scripts/addons/<your-addon-name>.yaml"))}"
-        acl    = "public-read"
-    }
-    ```
-    - the entry has to be added to the list of `depends_on` in the `init-aws-kubernetes-master` resource.
- 1) Add the file name into `addons` variable. 
+ 1) Place the addon Helm chart into `addons` directory.
+ 1) Add the directory name into `addons` variable. 
 
-For every file in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon file>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
+For every chart in the `addons` list, the initialization script will automatically call `helm install <chart name> -f <chart name>/default-values.yaml`. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
 
 # Kubernetes Tagging Lambda
 

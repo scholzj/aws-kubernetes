@@ -1,0 +1,15 @@
+apiVersion: v1
+description: Logging based on Fluentd + Elastic Search + Kibana
+name: logging
+version: 1.0.0
+sources:
+  - https://www.fluentd.org/
+  - https://www.elastic.co/products/elasticsearch
+  - https://www.elastic.co/products/kibana
+keywords:
+  - fluentd
+  - elastic search
+  - kibana
+maintainers:
+  - name: Risk-IT
+    email: RiskITBrowserStack@deutsche-boerse.com
