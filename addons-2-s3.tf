@@ -73,6 +73,28 @@ resource "local_file" "external-dns-default-values-yaml" {
     filename = "${path.module}/addons/external-dns/default-values.yaml"
 }
 
+# Nginx Ingress addon
+
+locals {
+    nginx_internal_elb_annotations = <<EOF
+service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+service.beta.kubernetes.io/aws-load-balancer-internal: '0.0.0.0/0'
+EOF
+}
+
+data "template_file" "nginx-ingress-default-values-yaml" {
+    template = "${file("${path.module}/addons/nginx-ingress/default-values.yaml.tpl")}"
+
+    vars {
+        annotations = "${var.hosted_zone_private ? indent(6, local.nginx_internal_elb_annotations) : ""}"
+    }
+}
+
+resource "local_file" "nginx-ingress-default-values-yaml" {
+    content  = "${data.template_file.nginx-ingress-default-values-yaml.rendered}"
+    filename = "${path.module}/addons/nginx-ingress/default-values.yaml"
+}
+
 # Archive addons
 data "archive_file" "zip_addons" {
     type        = "zip"
@@ -81,7 +103,8 @@ data "archive_file" "zip_addons" {
 
     depends_on = [
         "local_file.cluster-autoscaler-default-values-yaml",
-        "local_file.external-dns-default-values-yaml"
+        "local_file.external-dns-default-values-yaml",
+        "local_file.nginx-ingress-default-values-yaml"
     ]
 }
 

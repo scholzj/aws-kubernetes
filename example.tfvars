@@ -4,7 +4,7 @@ aws_region           = "eu-central-1"
 # Name for AWS resources
 cluster_name         = "aws-kubernetes"
 
-# Instance types for mster and worker nodes
+# Instance types for master and worker nodes
 master_instance_type = "t2.medium"
 worker_instances     = [
     {

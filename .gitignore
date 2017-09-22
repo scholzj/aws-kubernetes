@@ -1,6 +1,7 @@
 # Terraform state files
 addons/cluster-autoscaler/default-values.yaml
 addons/external-dns/default-values.yaml
+addons/nginx-ingress/default-values.yaml
 *.tfstate
 *.tfstate.backup
 *.tfstate.*.backup

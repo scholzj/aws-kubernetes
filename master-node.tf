@@ -50,7 +50,7 @@ resource "aws_instance" "master" {
     ami                         = "${data.aws_ami.centos7.id}"
     key_name                    = "${aws_key_pair.keypair.key_name}"
     subnet_id                   = "${var.master_subnet_id}"
-    associate_public_ip_address = false
+    associate_public_ip_address = "${!var.hosted_zone_private}"
 
     vpc_security_group_ids      = [
         "${aws_security_group.kubernetes-master.id}"
@@ -88,7 +88,7 @@ resource "aws_route53_record" "master" {
     zone_id = "${data.aws_route53_zone.dns_zone.zone_id}"
     name    = "${var.cluster_name}.${var.hosted_zone}"
     type    = "A"
-    records = [ "${aws_instance.master.private_ip}" ]
+    records = [ "${var.hosted_zone_private ? aws_instance.master.private_ip : aws_instance.master.public_ip}" ]
     ttl     = 300
 }
 
