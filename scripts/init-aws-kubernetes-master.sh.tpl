@@ -24,8 +24,8 @@ fi
 set -o nounset
 
 # Set fully qualified hostname
-# This is needed to match the hostname expected by kubeadm an the hostname used by kubelet
-hostname $(hostname -f)
+# This is needed to match the hostname expected by kubeadm and the hostname used by kubelet
+hostname $(curl -s http://169.254.169.254/latest/meta-data/hostname)
 
 # Make DNS lowercase
 export DNS_NAME=$(echo "${dns_name}" | tr 'A-Z' 'a-z')
