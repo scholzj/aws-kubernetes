@@ -30,6 +30,10 @@ hostname $(curl -s http://169.254.169.254/latest/meta-data/hostname)
 # Make DNS lowercase
 export DNS_NAME=$(echo "${dns_name}" | tr 'A-Z' 'a-z')
 
+# Install AWS CLI client
+yum install -y epel-release
+yum install -y awscli
+
 # Tag subnets
 for SUBNET in $AWS_SUBNETS
 do
@@ -119,6 +123,9 @@ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admi
 helm init --service-account tiller
 # Wait for tiller
 kubectl rollout status -w deployment/tiller-deploy --namespace=kube-system
+
+# Install unzip
+yum install -y unzip
 
 # Download and install addons
 aws s3 cp ${addons_zip_url} /tmp/ && unzip /tmp/addons.zip -d /tmp/addons && rm /tmp/addons.zip
