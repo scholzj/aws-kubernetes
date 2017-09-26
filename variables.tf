@@ -27,31 +27,30 @@ variable "master_instance_type" {
     default     = "t2.medium"
 }
 
-variable "worker_instance_type" {
-    description = "Type of instance for workers"
-    default     = "t2.medium"
+variable "worker_instances" {
+    description = "Types of instances for workers"
+    type        = "list"
+    default     = [
+        {
+            instance_type      = "t2.medium"
+            min_instance_count = 3
+            max_instance_count = 6
+        }
+    ]
 }
 
 variable "master_subnet_id" {
     description = "The subnet-id to be used for the master instance"
 }
 
-variable "worker_subnet_ids" {		
-    description = "The subnet-ids to be used for the worker instances"		
-    type = "list"		
-}
-
-variable "min_worker_count" {
-    description = "Minimal number of worker nodes"
-}
-
-variable "max_worker_count" {
-    description = "Maximal number of worker nodes"
+variable "worker_subnet_ids" {
+    description = "The subnet-ids to be used for the worker instances"
+    type        = "list"
 }
 
 variable "ssh_public_key" {
     description = "Path to the pulic part of SSH key which should be used for the instance"
-    default = "~/.ssh/id_rsa.pub"
+    default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "hosted_zone" {
@@ -60,21 +59,26 @@ variable "hosted_zone" {
 
 variable "hosted_zone_private" {
     description = "Is the hosted zone public or private"
-    default = false
+    default     = false
 }
 
 variable ssh_access_cidr {
-  description = "List of CIDRs from which SSH access is allowed"
-  type = "list"
-  default = [
-    "0.0.0.0/0"
-  ]
+    description = "List of CIDRs from which SSH access is allowed"
+    type        = "list"
+    default     = [
+        "0.0.0.0/0"
+    ]
 }
 
 variable api_access_cidr {
-  description = "List of CIDRs from which API access is allowed"
-  type = "list"
-  default = [
-    "0.0.0.0/0"
-  ]
+    description = "List of CIDRs from which API access is allowed"
+    type        = "list"
+    default     = [
+        "0.0.0.0/0"
+    ]
+}
+
+variable "dbg_naming_prefix" {
+    description = "Prefix of the IAM role name"
+    default     = "DBG-DEV-"
 }
