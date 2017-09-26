@@ -77,7 +77,6 @@ resource "local_file" "external-dns-default-values-yaml" {
 
 locals {
     nginx_internal_elb_annotations = <<EOF
-service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
 service.beta.kubernetes.io/aws-load-balancer-internal: '0.0.0.0/0'
 EOF
 }

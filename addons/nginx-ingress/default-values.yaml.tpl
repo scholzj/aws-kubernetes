@@ -18,6 +18,7 @@ controller:
     use-proxy-protocol: "true"
   service:
     annotations:
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
       ${annotations}
 defaultBackend:
   enabled: true

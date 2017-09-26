@@ -14,7 +14,6 @@
 *.swp
 *.bak
 *.tmp
-cluster-autoscaler-2-s3.tf
 *~
 # Various IDEs
 .project
