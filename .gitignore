@@ -6,3 +6,4 @@
 schojak.tfvars
 .terraform
 jakub.tfvars
+kubeconfig*
