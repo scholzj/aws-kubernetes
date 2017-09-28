@@ -51,7 +51,7 @@ tags2 = [
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/heapster.yaml
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/dashboard.yaml
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/external-dns.yaml
-# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler-dns.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler.yaml
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/ingress.yaml
 
 addons = [
@@ -59,7 +59,7 @@ addons = [
   "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/heapster.yaml",
   "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/dashboard.yaml",
   "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/external-dns.yaml",
-  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler-dns.yaml"
+  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler.yaml"
 ]
 
 # List of CIDRs from which SSH access is allowed
