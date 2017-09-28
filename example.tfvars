@@ -53,6 +53,7 @@ tags2 = [
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/external-dns.yaml
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler.yaml
 # https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/ingress.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/fluentd-es-kibana-logging.yaml
 
 addons = [
   "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/storage-class.yaml",
