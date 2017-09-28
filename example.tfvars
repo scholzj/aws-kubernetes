@@ -47,20 +47,19 @@ tags2 = [
 
 # Kubernetes Addons
 # Supported addons:
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/ingress.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml
-# https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/fluentd-es-kibana-logging.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/storage-class.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/heapster.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/dashboard.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/external-dns.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler.yaml
+# https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/ingress.yaml
 
 addons = [
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/storage-class.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/heapster.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/dashboard.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/external-dns.yaml",
-  "https://s3.amazonaws.com/scholzj-kubernetes/cluster/addons/autoscaler.yaml"
+  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/storage-class.yaml",
+  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/heapster.yaml",
+  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/dashboard.yaml",
+  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/external-dns.yaml",
+  "https://raw.githubusercontent.com/scholzj/terraform-aws-kubernetes/master/addons/autoscaler.yaml"
 ]
 
 # List of CIDRs from which SSH access is allowed
