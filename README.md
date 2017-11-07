@@ -2,18 +2,19 @@
 
 AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernetes.io/docs/admin/kubeadm/) tool. It provides full integration with AWS. It is able to handle ELB load balancers, EBS disks, Route53 domains etc.
 
-<!-- TOC -->
+<!-- TOC depthFrom:2 -->
 
-- [AWS Kubernetes](#aws-kubernetes)
-    - [Updates](#updates)
-    - [Prerequisites and dependencies](#prerequisites-and-dependencies)
-    - [Configuration](#configuration)
-        - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
-    - [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
-    - [Deleting AWS Kubernetes cluster](#deleting-aws-kubernetes-cluster)
-    - [Addons](#addons)
-    - [Custom addons](#custom-addons)
-    - [Tagging](#tagging)
+- [Updates](#updates)
+- [Prerequisites and dependencies](#prerequisites-and-dependencies)
+- [Configuration](#configuration)
+    - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
+- [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
+- [Deleting AWS Kubernetes cluster](#deleting-aws-kubernetes-cluster)
+- [Addons](#addons)
+- [Custom addons](#custom-addons)
+- [Tagging](#tagging)
+- [Frequently Asked Questions](#frequently-asked-questions)
+    - [How to access Kuberntes Dashboard](#how-to-access-kuberntes-dashboard)
 
 <!-- /TOC -->
 
@@ -97,3 +98,13 @@ Custom addons can be added if needed. For every URL in the `addons` list, the in
 ## Tagging
 
 If you need to tag resources created by your Kubernetes cluster (EBS volumes, ELB load balancers etc.) check [this AWS Lambda function which can do the tagging](https://github.com/scholzj/aws-kubernetes-tagging-lambda).
+
+## Frequently Asked Questions
+
+### How to access Kuberntes Dashboard
+
+The Kubernetes Dashboard addon is by default not exposed to the internet. This is intentional for security reasons (no authentication / authorization) and to save costs for Amazon AWS ELB load balancer.
+
+You can access the dashboard easily fro any computer with installed and configured `kubectl`:
+1) From coomand line start `kubectl proxy`
+2) Go to your browser and open [http://127.0.0.1:8001/ui](http://127.0.0.1:8001/ui)
