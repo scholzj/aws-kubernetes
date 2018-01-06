@@ -20,6 +20,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Updates
 
+* *6.1.2018:* Update to Kubernetes 1.9.1
 * *17.12.2017:* Update to Kubernetes 1.9.0, update Dashboard, Ingress, Autoscaler and Heapster dependencies
 * *8.12.2017:* Update to Kubernetes 1.8.5
 * *1.12.2017:* Fix problems with incorrect Ingress RBAC rights
@@ -35,9 +36,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 * *30.8.2017:* New addon - Fluentd + ElasticSearch + Kibana
 
 ## Prerequisites and dependencies
-
-* AWS Kubernetes deployes into existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one.
-* To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
+AWS Kubernetes deployes into existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one. To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
 ## Configuration
 
