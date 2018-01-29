@@ -15,7 +15,6 @@ ssh_public_key = "~/.ssh/id_rsa.pub"
 # - Master can be only in single subnet
 # - Workers can be in multiple subnets
 # - Worker subnets can contain also the master subnet
-# - If you want to run workers in different subnet(s) than master you have to tag the subnets with kubernetes.io/cluster/{cluster_name}=shared
 master_subnet_id = "subnet-8a3517f8"
 worker_subnet_ids = [		
     "subnet-8a3517f8",
