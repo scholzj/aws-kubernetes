@@ -1,6 +1,6 @@
 # AWS Kubernetes
 
-AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernetes.io/docs/admin/kubeadm/) tool. It provides full integration with AWS. It is able to handle ELB load balancers, EBS disks, Route53 domains etc.
+AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernetes.io/docs/admin/kubeadm/) tool. It provides full integration with AWS. It is able to handle ELB load balancers, EBS disks, Route53 domains and other AWS resources.
 
 <!-- TOC depthFrom:2 -->
 
@@ -8,13 +8,13 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 - [Prerequisites and dependencies](#prerequisites-and-dependencies)
 - [Configuration](#configuration)
     - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
-- [Creating AWS Kubernetes cluster](#creating-aws-kubernetes-cluster)
-- [Deleting AWS Kubernetes cluster](#deleting-aws-kubernetes-cluster)
+- [Creating AWS Kubernetes Cluster](#creating-aws-kubernetes-cluster)
+- [Deleting AWS Kubernetes Cluster](#deleting-aws-kubernetes-cluster)
 - [Addons](#addons)
-- [Custom addons](#custom-addons)
+- [Custom Addons](#custom-addons)
 - [Tagging](#tagging)
 - [Frequently Asked Questions](#frequently-asked-questions)
-    - [How to access Kuberntes Dashboard](#how-to-access-kuberntes-dashboard)
+    - [How to access the Kubernetes Dashboard](#how-to-access-the-kubernetes-dashboard)
 
 <!-- /TOC -->
 
@@ -41,7 +41,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 * *30.8.2017:* New addon - Fluentd + ElasticSearch + Kibana
 
 ## Prerequisites and dependencies
-AWS Kubernetes deployes into existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one. To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
+AWS Kubernetes deployes into an existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one. To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
 ## Configuration
 
@@ -70,7 +70,7 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 
 In order to run workers in additional / different subnet(s) than master you have to tag the subnets with `kubernetes.io/cluster/{cluster_name}=shared`. For example `kubernetes.io/cluster/my-aws-kubernetes=shared`. During the cluster setup, the bootstrapping script will automatically add these tags to the subnets specified in `worker_subnet_ids`.
 
-## Creating AWS Kubernetes cluster
+## Creating AWS Kubernetes Cluster
 
 To create AWS Kubernetes cluster, 
 * Export AWS credentials into environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
@@ -79,7 +79,7 @@ To create AWS Kubernetes cluster,
 terraform apply --var-file example.tfvars
 ```
 
-## Deleting AWS Kubernetes cluster
+## Deleting AWS Kubernetes Cluster
 
 To delete AWS Kubernetes cluster, 
 * Export AWS credentials into environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
@@ -101,7 +101,7 @@ Currently, following addons are supported:
 
 The addons will be installed automatically based on the Terraform variables. 
 
-## Custom addons
+## Custom Addons
 
 Custom addons can be added if needed. For every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
 
@@ -111,7 +111,7 @@ If you need to tag resources created by your Kubernetes cluster (EBS volumes, EL
 
 ## Frequently Asked Questions
 
-### How to access Kuberntes Dashboard
+### How to access the Kubernetes Dashboard
 
 The Kubernetes Dashboard addon is by default not exposed to the internet. This is intentional for security reasons (no authentication / authorization) and to save costs for Amazon AWS ELB load balancer.
 
