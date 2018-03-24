@@ -20,6 +20,7 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Updates
 
+* *24.3.2018:* Update to Kubernetes 1.9.6
 * *17.3.2018:* Update to Kubernetes 1.9.4
 * *4.3.2018:* Fix issues with Cluster Autoscaler not scaling down nodes
 * *11.2.2018:* Update to Kubernetes 1.9.3 and Cluster Autoscaler to 1.1.1
