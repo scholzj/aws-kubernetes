@@ -4,22 +4,23 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 <!-- TOC depthFrom:2 -->
 
-- [Updates](#updates)
-- [Prerequisites and dependencies](#prerequisites-and-dependencies)
-- [Configuration](#configuration)
-    - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
-- [Creating AWS Kubernetes Cluster](#creating-aws-kubernetes-cluster)
-- [Deleting AWS Kubernetes Cluster](#deleting-aws-kubernetes-cluster)
-- [Addons](#addons)
-- [Custom Addons](#custom-addons)
-- [Tagging](#tagging)
-- [Frequently Asked Questions](#frequently-asked-questions)
-    - [How to access the Kubernetes Dashboard](#how-to-access-the-kubernetes-dashboard)
+- [AWS Kubernetes](#aws-kubernetes)
+    - [Updates](#updates)
+    - [Prerequisites and dependencies](#prerequisites-and-dependencies)
+    - [Configuration](#configuration)
+        - [Using multiple / different subnets for workers nodea](#using-multiple---different-subnets-for-workers-nodea)
+    - [Creating AWS Kubernetes Cluster](#creating-aws-kubernetes-cluster)
+    - [Deleting AWS Kubernetes Cluster](#deleting-aws-kubernetes-cluster)
+    - [Addons](#addons)
+    - [Custom Addons](#custom-addons)
+    - [Tagging](#tagging)
+        - [How to access the Kubernetes Dashboard](#how-to-access-the-kubernetes-dashboard)
 
 <!-- /TOC -->
 
 ## Updates
 
+* *27.5.2018:* Update to Kubernetes 1.10.3 and Cluster Autoscaler 1.2.2
 * *18.4.2018:* Update to Kubernetes 1.10.1
 * *31.3.2018:* Update to Kubernetes 1.10.0, update Calico networking and update Kubernetes Dahsboard, Cluster Autoscaler, Ingress and Heapster addons
 * *24.3.2018:* Update to Kubernetes 1.9.6
