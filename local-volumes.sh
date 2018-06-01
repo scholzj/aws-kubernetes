@@ -41,9 +41,6 @@ EOF
     done
 done
 
-
-
-
 cat <<EOF > /tmp/local-storage-class.yaml
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
