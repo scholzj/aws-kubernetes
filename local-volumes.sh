@@ -20,7 +20,7 @@ metadata:
   name: $NODE-vol-$i
 spec:
   capacity:
-    storage: 1Gi
+    storage: 100Gi
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
