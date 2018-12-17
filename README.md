@@ -20,6 +20,8 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Updates
 
+* *17.12.2018* Update to Kubernetes 1.13.1
+* *8.12.2018:* Update to Kubernetes 1.13.0, added storage class for `st1` HDD disks, Ingress 0.21.0 and Cluster Autoscaler 1.13.0
 * *1.12.2018:* Update to Kubernetes 1.12.3 and External DNS 0.5.9
 * *11.11.2018:* Fix error when updating ASG launch-configurations [#20](https://github.com/scholzj/terraform-aws-kubernetes/issues/20)
 * *10.11.2018* Update to Kubernetes 1.12.2, Calico 3.3 and addons (Dashboard 1.10.0, Heapster 1.5.4, Ingress 0.20.0, External DNS 0.5.8, Cluster Autoscaler 1.12.1)
