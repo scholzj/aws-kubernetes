@@ -7,3 +7,6 @@ schojak.tfvars
 .terraform
 jakub.tfvars
 kubeconfig*
+.kubeconfig
+kafka*.tfvars
+crash.log
