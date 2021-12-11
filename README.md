@@ -144,11 +144,10 @@ terraform destroy --var-file example.tfvars
 Currently, following addons are supported:
 * Kubernetes dashboard
 * Heapster for resource monitoring
-* Storage class for automatic provisioning of persisitent volumes
+* Storage class and CSI driver for automatic provisioning of persistent volumes
 * External DNS (Replaces Route53 mapper)
 * Ingress
 * Autoscaler
-* Logging with Fluentd + ElasticSearch + Kibana
 
 The addons will be installed automatically based on the Terraform variables. 
 
