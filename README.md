@@ -20,14 +20,12 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Updates
 
+* *8.5.2022* Update to Kubernetes 1.24.0 + update add-ons
 * *23.3.2022* Update to Kubernetes 1.23.5 + update addons
 * *19.2.2022* Update to Kubernetes 1.23.4
 * *12.2.2022* Update to Kubernetes 1.23.2
 * *29.12.2021* Update to Kubernetes 1.23.1
 * *11.12.2021* Update to Kubernetes 1.23.0
-* *21.11.2021* Update to Kubernetes 1.22.4
-* *28.10.2021* Update to Kubernetes 1.22.3 + update addons
-* *9.10.2021* Update to Kubernetes 1.22.2 + update addons
 
 ## Prerequisites and dependencies
 AWS Kubernetes deployes into an existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one. To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
