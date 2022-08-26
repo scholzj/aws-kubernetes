@@ -7,11 +7,11 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 - [Updates](#updates)
 - [Prerequisites and dependencies](#prerequisites-and-dependencies)
 - [Configuration](#configuration)
-    - [Using multiple / different subnets for workers nodea](#using-multiple--different-subnets-for-workers-nodea)
+    - [Using multiple / different subnets for workers nodes](#using-multiple--different-subnets-for-workers-nodes)
 - [Creating AWS Kubernetes Cluster](#creating-aws-kubernetes-cluster)
 - [Deleting AWS Kubernetes Cluster](#deleting-aws-kubernetes-cluster)
-- [Addons](#addons)
-- [Custom Addons](#custom-addons)
+- [Add-ons](#addons)
+- [Custom Add-ons](#custom-addons)
 - [Tagging](#tagging)
 - [Frequently Asked Questions](#frequently-asked-questions)
     - [How to access the Kubernetes Dashboard](#how-to-access-the-kubernetes-dashboard)
@@ -20,23 +20,25 @@ AWS Kubernetes is a Kubernetes cluster deployed using [Kubeadm](https://kubernet
 
 ## Updates
 
+* *26.8.2022* Update to Kubernetes 1.25.0 + Calico upgrade
 * *22.8.2022* Update to Kubernetes 1.24.4
 * *16.7.2022* Update to Kubernetes 1.24.3
 * *27.6.2022* Update to Kubernetes 1.24.2
-* *11.6.2022* Update to Kubernetes 1.24.1 + update addons + remove dependency on the template provider
+* *11.6.2022* Update to Kubernetes 1.24.1 + update add-ons + remove dependency on the template provider
 * *8.5.2022* Update to Kubernetes 1.24.0 + update add-ons
-* *23.3.2022* Update to Kubernetes 1.23.5 + update addons
+* *23.3.2022* Update to Kubernetes 1.23.5 + update add-ons
 * *19.2.2022* Update to Kubernetes 1.23.4
 * *12.2.2022* Update to Kubernetes 1.23.2
 * *29.12.2021* Update to Kubernetes 1.23.1
 * *11.12.2021* Update to Kubernetes 1.23.0
 
 ## Prerequisites and dependencies
-AWS Kubernetes deployes into an existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one. To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
+
+AWS Kubernetes deploys into an existing VPC / public subnet. If you don't have your VPC / subnet yet, you can use [this](https://github.com/scholzj/aws-vpc) configuration to create one. To deploy AWS Kubernetes there are no other dependencies apart from [Terraform](https://www.terraform.io). Kubeadm is used only on the EC2 hosts and doesn't have to be installed locally.
 
 ## Configuration
 
-The configuration is done through Terraform variables. Example *tfvars* file is part of this repo and is named `example.tfvars`. Change the variables to match your environment / requirements before running `terraform apply ...`.
+The configuration is done through Terraform variables. Example `tfvars` file is part of this repo and is named `example.tfvars`. Change the variables to match your environment / requirements before running `terraform apply ...`.
 
 | Option | Explanation | Example |
 |--------|-------------|---------|
@@ -51,13 +53,13 @@ The configuration is done through Terraform variables. Example *tfvars* file is 
 | `max_worker_count` | Maximal number of worker nodes | `6` |
 | `hosted_zone` | DNS zone which should be used | `my-domain.com` |
 | `hosted_zone_private` | Is the DNS zone public or private | `false` |
-| `addons` | List of addons which should be installed | `[ "https://..." ]` |
-| `tags` | Tags which should be applied to all resources | see *example.tfvars* file |
-| `tags2` | Tags in second format which should be applied to AS groups | see *example.tfvars* file |
+| `addons` | List of add-ons which should be installed | `[ "https://..." ]` |
+| `tags` | Tags which should be applied to all resources | see `example.tfvars` file |
+| `tags2` | Tags in second format which should be applied to AS groups | see `example.tfvars` file |
 | `ssh_access_cidr` | List of CIDRs from which SSH access is allowed | `[ "0.0.0.0/0" ]` |
 | `api_access_cidr` | List of CIDRs from which API access is allowed | `[ "0.0.0.0/0" ]` |
 
-### Using multiple / different subnets for workers nodea
+### Using multiple / different subnets for workers nodes
 
 In order to run workers in additional / different subnet(s) than master you have to tag the subnets with `kubernetes.io/cluster/{cluster_name}=shared`. For example `kubernetes.io/cluster/my-aws-kubernetes=shared`. During the cluster setup, the bootstrapping script will automatically add these tags to the subnets specified in `worker_subnet_ids`.
 
@@ -79,9 +81,9 @@ To delete AWS Kubernetes cluster,
 terraform destroy --var-file example.tfvars
 ```
 
-## Addons
+## Add-ons
 
-Currently, following addons are supported:
+Currently, following add-ons are supported:
 * Kubernetes dashboard
 * Heapster for resource monitoring
 * Storage class and CSI driver for automatic provisioning of persistent volumes
@@ -89,11 +91,11 @@ Currently, following addons are supported:
 * Ingress
 * Autoscaler
 
-The addons will be installed automatically based on the Terraform variables. 
+The add-ons will be installed automatically based on the Terraform variables. 
 
-## Custom Addons
+## Custom Add-ons
 
-Custom addons can be added if needed. For every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom addons have to be *RBAC ready*.
+Custom add-ons can be added if needed. For every URL in the `addons` list, the initialization scripts will automatically call `kubectl -f apply <Addon URL>` to deploy it. The cluster is using RBAC. So the custom add-ons have to be *RBAC ready*.
 
 ## Tagging
 
@@ -103,8 +105,8 @@ If you need to tag resources created by your Kubernetes cluster (EBS volumes, EL
 
 ### How to access the Kubernetes Dashboard
 
-The Kubernetes Dashboard addon is by default not exposed to the internet. This is intentional for security reasons (no authentication / authorization) and to save costs for Amazon AWS ELB load balancer.
+The Kubernetes Dashboard add-on is by default not exposed to the internet. This is intentional for security reasons (no authentication / authorization) and to save costs for Amazon AWS ELB load balancer.
 
 You can access the dashboard easily fro any computer with installed and configured `kubectl`:
-1) From coomand line start `kubectl proxy`
+1) From command line start `kubectl proxy`
 2) Go to your browser and open [http://127.0.0.1:8001/ui](http://127.0.0.1:8001/ui)
